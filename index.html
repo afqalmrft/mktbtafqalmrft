@@ -281,63 +281,72 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Auth Logic
-			// --- YOUR FIREBASE CONFIG ---
-				const API_KEY = "AIzaSyDWIr2GNP5OSu32nUZqgXuNnWUn-IZ1EBg";
+			const API_KEY = "AIzaSyDWIr2GNP5OSu32nUZqgXuNnWUn-IZ1EBg";
 
-				async function verifyAndDisplayUser() {
+				async function forceAuthCheck() {
 					const authSection = document.getElementById('authSection');
 					const storedUser = localStorage.getItem('currentUser');
 
-					if (!storedUser) return; // Not logged in, stay as is
+					// If no data in storage, we can't do anything
+					if (!storedUser) return;
 
 					try {
 						const user = JSON.parse(storedUser);
 						
-						// 1. We talk to the API to make sure this user is actually valid
+						// Talk to Firebase to verify the user
 						const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`, {
 							method: 'POST',
-							body: JSON.stringify({ idToken: user.idToken }), // We use the token from login
+							body: JSON.stringify({ idToken: user.idToken }),
 							headers: { 'Content-Type': 'application/json' }
 						});
 
 						const data = await response.json();
 
 						if (response.ok && data.users) {
-							const firebaseEmail = data.users[0].email;
+							const email = data.users[0].email;
 
-							// 2. FORCE display the Email and مرحبا
-							authSection.innerHTML = `
-								<div class="user-menu" style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 50px; border: 1px solid white;">
-									<span style="color: white; font-weight: bold; cursor: default;">مرحباً، ${firebaseEmail}</span>
-									<button id="logoutBtn" style="background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: bold;">خروج</button>
-								</div>
-							`;
+							// REPLACING THE LOGIN BUTTON MANUALLY
+							if (authSection) {
+								authSection.innerHTML = `
+									<div style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 50px; border: 1px solid white; backdrop-filter: blur(5px);">
+										<span style="color: white; font-weight: bold; font-size: 0.9rem;">مرحباً، ${email}</span>
+										<button id="logoutBtn" style="background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-family: inherit;">خروج</button>
+									</div>
+								`;
 
-							// 3. LOGOUT LOGIC
-							document.getElementById('logoutBtn').onclick = () => {
-								localStorage.removeItem('currentUser');
-								window.location.reload();
-							};
+								document.getElementById('logoutBtn').onclick = () => {
+									localStorage.removeItem('currentUser');
+									window.location.reload();
+								};
+							}
 						}
-					} catch (error) {
-						console.log("Firebase check failed, showing local data instead.");
-						// Fallback: If API fails, just show what we have in storage
+					} catch (e) {
+						// Fallback: If API is blocked, show local email
 						const user = JSON.parse(storedUser);
-						authSection.innerHTML = `<div class="user-menu"><span>مرحباً، ${user.email}</span></div>`;
+						authSection.innerHTML = `<div style="color:white;">مرحباً، ${user.email}</div>`;
 					}
 				}
 
 				// --- SERVICE MODAL LOGIC ---
-				const modal = document.getElementById('serviceModal');
-				document.querySelectorAll('.btn-service').forEach(btn => {
-					btn.onclick = () => { if(modal) modal.style.display = 'flex'; }
-				});
-				if(document.getElementById('closeModal')) {
-					document.getElementById('closeModal').onclick = () => { modal.style.display = 'none'; }
+				function initModals() {
+					const modal = document.getElementById('serviceModal');
+					document.querySelectorAll('.btn-service').forEach(btn => {
+						btn.onclick = () => { if(modal) modal.style.display = 'flex'; }
+					});
+					const close = document.getElementById('closeModal');
+					if(close) close.onclick = () => { modal.style.display = 'none'; }
 				}
 
-				// EXECUTE IMMEDIATELY
-				verifyAndDisplayUser();
+				// --- THE "NEVER FAIL" EXECUTION ---
+				// 1. Run immediately
+				forceAuthCheck();
+				initModals();
+
+				// 2. Run again after 1 second (to catch GitHub Pages loading delay)
+				setTimeout(forceAuthCheck, 1000);
+				
+				// 3. Keep checking every 3 seconds just in case
+				setInterval(forceAuthCheck, 3000);
             // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
             const closeServiceModal = document.getElementById('closeModal');
