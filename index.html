@@ -281,72 +281,92 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Auth Logic
-			const API_KEY = "AIzaSyDWIr2GNP5OSu32nUZqgXuNnWUn-IZ1EBg";
+			// --- YOUR PRIVATE CONFIG ---
+				const API_KEY = "AIzaSyDWIr2GNP5OSu32nUZqgXuNnWUn-IZ1EBg";
 
-				async function forceAuthCheck() {
+				// --- THE "HUNTER" FUNCTION ---
+				async function checkLoginSuccess() {
 					const authSection = document.getElementById('authSection');
 					const storedUser = localStorage.getItem('currentUser');
 
-					// If no data in storage, we can't do anything
+					// If there's no data in the browser memory, stop here
 					if (!storedUser) return;
 
 					try {
 						const user = JSON.parse(storedUser);
 						
-						// Talk to Firebase to verify the user
-						const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`, {
-							method: 'POST',
-							body: JSON.stringify({ idToken: user.idToken }),
-							headers: { 'Content-Type': 'application/json' }
-						});
+						// If we have an idToken, let's verify it with the API Key
+						if (user.idToken) {
+							const response = await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=${API_KEY}`, {
+								method: 'POST',
+								body: JSON.stringify({ idToken: user.idToken }),
+								headers: { 'Content-Type': 'application/json' }
+							});
 
-						const data = await response.json();
+							const data = await response.json();
 
-						if (response.ok && data.users) {
-							const email = data.users[0].email;
-
-							// REPLACING THE LOGIN BUTTON MANUALLY
-							if (authSection) {
-								authSection.innerHTML = `
-									<div style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.2); padding: 8px 15px; border-radius: 50px; border: 1px solid white; backdrop-filter: blur(5px);">
-										<span style="color: white; font-weight: bold; font-size: 0.9rem;">مرحباً، ${email}</span>
-										<button id="logoutBtn" style="background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-weight: bold; font-family: inherit;">خروج</button>
-									</div>
-								`;
-
-								document.getElementById('logoutBtn').onclick = () => {
-									localStorage.removeItem('currentUser');
-									window.location.reload();
-								};
+							if (response.ok && data.users) {
+								const email = data.users[0].email;
+								displayUser(email);
+							} else {
+								// If API fails but we have local data, use local data as fallback
+								displayUser(user.email || user.username);
 							}
+						} else {
+							// If no token but data exists (localstorage mode)
+							displayUser(user.email || user.username);
 						}
 					} catch (e) {
-						// Fallback: If API is blocked, show local email
-						const user = JSON.parse(storedUser);
-						authSection.innerHTML = `<div style="color:white;">مرحباً، ${user.email}</div>`;
+						console.error("Auth check failed:", e);
 					}
 				}
 
-				// --- SERVICE MODAL LOGIC ---
-				function initModals() {
-					const modal = document.getElementById('serviceModal');
-					document.querySelectorAll('.btn-service').forEach(btn => {
-						btn.onclick = () => { if(modal) modal.style.display = 'flex'; }
-					});
-					const close = document.getElementById('closeModal');
-					if(close) close.onclick = () => { modal.style.display = 'none'; }
+				// --- THE DISPLAY FUNCTION (FORCING THE UI TO CHANGE) ---
+				function displayUser(name) {
+					const authSection = document.getElementById('authSection');
+					if (!authSection) return;
+
+					authSection.innerHTML = `
+						<div class="user-menu" style="display: flex; align-items: center; gap: 12px; background: rgba(255,255,255,0.2); padding: 8px 18px; border-radius: 50px; border: 1px solid white; backdrop-filter: blur(5px);">
+							<span style="color: white; font-weight: bold; font-size: 0.95rem;">مرحباً، ${name}</span>
+							<button id="logoutBtn" style="background: #ef4444; color: white; border: none; padding: 6px 14px; border-radius: 20px; cursor: pointer; font-weight: bold; font-family: 'Tajawal', sans-serif;">خروج</button>
+						</div>
+					`;
+
+					document.getElementById('logoutBtn').onclick = () => {
+						localStorage.removeItem('currentUser');
+						window.location.reload();
+					};
 				}
 
-				// --- THE "NEVER FAIL" EXECUTION ---
-				// 1. Run immediately
-				forceAuthCheck();
-				initModals();
+				// --- SERVICE MODAL LOGIC ---
+				function setupModals() {
+					const modal = document.getElementById('serviceModal');
+					const closeBtn = document.getElementById('closeModal');
+					
+					document.querySelectorAll('.btn-service').forEach(btn => {
+						btn.onclick = () => {
+							const card = btn.closest('.service-card');
+							const title = card ? card.querySelector('h4').innerText : "خدمة";
+							if(document.getElementById('mTitle')) document.getElementById('mTitle').innerText = title;
+							if(modal) modal.style.display = 'flex';
+						};
+					});
 
-				// 2. Run again after 1 second (to catch GitHub Pages loading delay)
-				setTimeout(forceAuthCheck, 1000);
-				
-				// 3. Keep checking every 3 seconds just in case
-				setInterval(forceAuthCheck, 3000);
+					if(closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; };
+					window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
+				}
+
+				// --- EXECUTION PLAN ---
+				// 1. Run as soon as script loads
+				checkLoginSuccess();
+				setupModals();
+
+				// 2. Run again after 500ms (to fix GitHub Pages lag)
+				setTimeout(checkLoginSuccess, 500);
+
+				// 3. Run again after 2 seconds just to be 100% sure
+				setTimeout(checkLoginSuccess, 2000);
             // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
             const closeServiceModal = document.getElementById('closeModal');
