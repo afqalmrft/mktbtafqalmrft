@@ -23,8 +23,27 @@
         
         nav { display: flex; justify-content: space-between; align-items: center; margin-bottom: 60px; }
         .nav-left { display: flex; justify-content: flex-start; }
-        .btn-login { background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.4); color: white; padding: 8px 25px; border-radius: 50px; text-decoration: none; font-weight: 500; font-size: 0.9rem; transition: 0.3s; backdrop-filter: blur(5px); }
+        
+        .btn-login { 
+            background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.4); 
+            color: white; padding: 8px 25px; border-radius: 50px; text-decoration: none; 
+            font-weight: 500; font-size: 0.9rem; transition: 0.3s; backdrop-filter: blur(5px); 
+        }
         .btn-login:hover { background: white; color: var(--dark-blue); transform: translateY(-2px); }
+
+        /* --- User Menu (Logged In State) --- */
+        .user-menu {
+            display: flex; align-items: center; gap: 15px; background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.4); padding: 5px 15px; border-radius: 50px;
+            backdrop-filter: blur(5px);
+        }
+        .user-menu span { color: white; font-weight: bold; font-size: 0.95rem; }
+        .btn-logout {
+            background: #ef4444; color: white; border: none; padding: 5px 12px;
+            border-radius: 20px; cursor: pointer; font-family: inherit; font-size: 0.8rem;
+            transition: 0.3s;
+        }
+        .btn-logout:hover { background: #dc2626; }
 
         .nav-links ul { list-style: none; display: flex; gap: 20px; }
         .nav-links a { color: #cbd5e1; text-decoration: none; font-size: 0.95rem; transition: 0.3s; }
@@ -125,7 +144,9 @@
 
     <header class="hero">
         <nav>
-            <div class="nav-left"><a href="login.html" class="btn-login">تسجيل الدخول</a></div>
+            <div class="nav-left">
+                <a href="login.html" class="btn-login" id="navLoginBtn">تسجيل الدخول</a>
+            </div>
             <div class="nav-links">
                 <ul>
                     <li><a href="#">الرئيسية</a></li>
@@ -190,6 +211,9 @@
         <div class="services-grid">
             <div class="service-card"><div class="icon-circle">💰</div><h4 class="service-title">بيع الكتب المستعملة</h4><button class="btn-service">أضف كتابك</button></div>
             <div class="service-card"><div class="icon-circle">📝</div><h4 class="service-title">الملخصات المجانية</h4><button class="btn-service">أضف ملخصاً</button></div>
+            
+            <div class="service-card"><div class="icon-circle">↔️</div><h4 class="service-title">استئجار الكتب</h4><button class="btn-service">طلب استئجار</button></div>
+            
             <div class="service-card"><div class="icon-circle">📚</div><h4 class="service-title">التبرع بالكتب</h4><button class="btn-service">أضف كتابك</button></div>
             <div class="service-card"><div class="icon-circle">🔍</div><h4 class="service-title">استفسار</h4><button class="btn-service">ارسل استفسارك</button></div>
         </div>
@@ -237,7 +261,6 @@
         <div class="modal-content">
             <button class="close-btn" id="closeBookModal">&times;</button>
             <h2 class="modal-title">شراء كتاب</h2>
-            
             <div class="book-preview">
                 <img id="modalBookImg" src="" alt="Book Cover">
                 <div class="book-preview-info">
@@ -245,7 +268,6 @@
                     <p id="modalBookPrice">00 SAR</p>
                 </div>
             </div>
-
             <form action="#">
                 <div class="form-group">
                     <label for="buyerEmail">أدخل بريدك الإلكتروني لإتمام الشراء</label>
@@ -258,7 +280,24 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            // --- Services Modal Logic ---
+            // 1. Auth Logic
+            const navLeft = document.querySelector('.nav-left');
+            const currentUserData = localStorage.getItem('currentUser');
+            if (currentUserData) {
+                const user = JSON.parse(currentUserData);
+                navLeft.innerHTML = `
+                    <div class="user-menu">
+                        <span>مرحباً، ${user.username}</span>
+                        <button id="logoutBtn" class="btn-logout">تسجيل خروج</button>
+                    </div>
+                `;
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload(); 
+                });
+            }
+
+            // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
             const closeServiceModal = document.getElementById('closeModal');
             const serviceBtns = document.querySelectorAll('.btn-service');
@@ -281,11 +320,10 @@
 
             closeServiceModal.addEventListener('click', () => serviceModal.style.display = 'none');
 
-            // --- Books Modal Logic ---
+            // 3. Books Modal Logic
             const bookModal = document.getElementById('bookModal');
             const closeBookModal = document.getElementById('closeBookModal');
             const bookCards = document.querySelectorAll('.book-card');
-
             const modalBookImg = document.getElementById('modalBookImg');
             const modalBookTitle = document.getElementById('modalBookTitle');
             const modalBookPrice = document.getElementById('modalBookPrice');
@@ -301,7 +339,7 @@
 
             closeBookModal.addEventListener('click', () => bookModal.style.display = 'none');
 
-            // --- Close Modals by Clicking Outside ---
+            // 4. Global Close
             window.addEventListener('click', (e) => {
                 if (e.target === serviceModal) serviceModal.style.display = 'none';
                 if (e.target === bookModal) bookModal.style.display = 'none';

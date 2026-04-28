@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - أفق المعرفة</title>
+    <title>إنشاء حساب - أفق المعرفة</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        /* Same CSS as Register page to keep it consistent */
         body { font-family: 'Tajawal', sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
         .auth-container { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; text-align: center; }
         .auth-container h2 { color: #0f172a; margin-bottom: 20px; }
@@ -23,42 +22,48 @@
 <body>
 
     <div class="auth-container">
-        <h2>تسجيل الدخول</h2>
-        <form id="loginForm">
+        <h2>إنشاء حساب جديد</h2>
+        <form id="registerForm">
             <div class="form-group">
-                <label for="logEmail">البريد الإلكتروني الجامعي</label>
-                <input type="email" id="logEmail" required>
+                <label for="regUsername">اسم المستخدم</label>
+                <input type="text" id="regUsername" required>
             </div>
             <div class="form-group">
-                <label for="logPassword">كلمة المرور</label>
-                <input type="password" id="logPassword" required>
+                <label for="regEmail">البريد الإلكتروني الجامعي</label>
+                <input type="email" id="regEmail" required>
             </div>
-            <button type="submit" class="btn-auth">دخول</button>
+            <div class="form-group">
+                <label for="regPassword">كلمة المرور</label>
+                <input type="password" id="regPassword" required>
+            </div>
+            <button type="submit" class="btn-auth">تسجيل</button>
         </form>
-        <a href="register.html" class="switch-link">ليس لديك حساب؟ <span>سجل من هنا</span></a>
+        <a href="login.html" class="switch-link">لديك حساب بالفعل؟ <span>سجل دخولك هنا</span></a>
     </div>
 
     <script>
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
-            e.preventDefault();
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault(); // Prevent page refresh
             
-            const email = document.getElementById('logEmail').value;
-            const password = document.getElementById('logPassword').value;
+            const username = document.getElementById('regUsername').value;
+            const email = document.getElementById('regEmail').value;
+            const password = document.getElementById('regPassword').value;
 
-            // Retrieve saved users
+            // Get existing users or create an empty array
             let users = JSON.parse(localStorage.getItem('libraryUsers')) || [];
 
-            // Find if there is a matching email and password
-            const validUser = users.find(user => user.email === email && user.password === password);
-
-            if (validUser) {
-                // Save the current logged-in user session
-                localStorage.setItem('currentUser', JSON.stringify(validUser));
-                alert('تم تسجيل الدخول بنجاح!');
-                window.location.href = 'index.html'; // Send them to the main page
-            } else {
-                alert('البريد الإلكتروني أو كلمة المرور غير صحيحة.');
+            // Check if email already exists
+            if(users.some(user => user.email === email)) {
+                alert('هذا البريد الإلكتروني مسجل بالفعل!');
+                return;
             }
+
+            // Save new user
+            users.push({ username, email, password });
+            localStorage.setItem('libraryUsers', JSON.stringify(users));
+
+            alert('تم إنشاء الحساب بنجاح! سيتم تحويلك لصفحة تسجيل الدخول.');
+            window.location.href = 'login.html'; // Redirect to login
         });
     </script>
 </body>
