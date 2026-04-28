@@ -281,21 +281,28 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Auth Logic
-            const navLeft = document.querySelector('.nav-left');
-            const currentUserData = localStorage.getItem('currentUser');
-            if (currentUserData) {
-                const user = JSON.parse(currentUserData);
-                navLeft.innerHTML = `
-                    <div class="user-menu">
-                        <span>مرحباً، ${user.username}</span>
-                        <button id="logoutBtn" class="btn-logout">تسجيل خروج</button>
-                    </div>
-                `;
-                document.getElementById('logoutBtn').addEventListener('click', () => {
-                    localStorage.removeItem('currentUser');
-                    window.location.reload(); 
-                });
-            }
+			document.addEventListener('DOMContentLoaded', () => {
+				const navLeft = document.querySelector('.nav-left');
+				const currentUserData = localStorage.getItem('currentUser');
+
+				if (currentUserData) {
+					const user = JSON.parse(currentUserData);
+					const displayName = user.username || user.email.split('@')[0];
+        
+					navLeft.innerHTML = `
+						<div class="user-menu">
+							<span>مرحباً، ${displayName}</span>
+							<button id="logoutBtn" class="btn-logout">تسجيل خروج</button>
+						</div>
+					`;
+        
+					document.getElementById('logoutBtn').addEventListener('click', () => {
+						localStorage.removeItem('currentUser');
+						window.location.reload(); 
+					});
+				}
+
+			});
 
             // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
