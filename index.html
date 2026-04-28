@@ -281,52 +281,22 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Auth Logic
-			// This function runs every time the page loads
-				function checkUser() {
-					const authSection = document.getElementById('authSection');
-					
-					// 1. Grab the "Memory" from the browser
-					const data = localStorage.getItem('currentUser');
-					
-					if (data) {
-						// 2. Turn that text back into a Javascript object
-						const user = JSON.parse(data);
-						
-						// 3. Get the email or the username
-						const nameToShow = user.username || user.email || "مستخدم";
+            const navLeft = document.querySelector('.nav-left');
+            const currentUserData = localStorage.getItem('currentUser');
+            if (currentUserData) {
+                const user = JSON.parse(currentUserData);
+                navLeft.innerHTML = `
+                    <div class="user-menu">
+                        <span>مرحباً، ${user.username}</span>
+                        <button id="logoutBtn" class="btn-logout">تسجيل خروج</button>
+                    </div>
+                `;
+                document.getElementById('logoutBtn').addEventListener('click', () => {
+                    localStorage.removeItem('currentUser');
+                    window.location.reload(); 
+                });
+            }
 
-						// 4. FORCE the HTML to change
-						if (authSection) {
-							authSection.innerHTML = `
-								<div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 50px;">
-									<span style="color: white; font-weight: bold;">مرحباً، ${nameToShow}</span>
-									<button onclick="logoutNow()" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 20px; cursor: pointer;">خروج</button>
-								</div>
-							`;
-						}
-					}
-				}
-
-				// Function to handle logout
-				function logoutNow() {
-					localStorage.removeItem('currentUser');
-					window.location.reload();
-				}
-
-				// Modal Logic for your "Hire/Rent" buttons
-				const modal = document.getElementById('serviceModal');
-				document.querySelectorAll('.btn-service').forEach(btn => {
-					btn.onclick = () => {
-						if(modal) modal.style.display = 'flex';
-					}
-				});
-
-				if(document.getElementById('closeModal')) {
-					document.getElementById('closeModal').onclick = () => { modal.style.display = 'none'; }
-				}
-
-				// RUN THE CHECK IMMEDIATELY
-				checkUser();
             // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
             const closeServiceModal = document.getElementById('closeModal');
