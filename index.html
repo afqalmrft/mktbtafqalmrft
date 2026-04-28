@@ -281,31 +281,52 @@
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // 1. Auth Logic
-			function checkLoginStatus() {
+			// This function runs every time the page loads
+				function checkUser() {
 					const authSection = document.getElementById('authSection');
-					const storedData = localStorage.getItem('currentUser');
-
-					if (storedData && authSection) {
-						const user = JSON.parse(storedData);
+					
+					// 1. Grab the "Memory" from the browser
+					const data = localStorage.getItem('currentUser');
+					
+					if (data) {
+						// 2. Turn that text back into a Javascript object
+						const user = JSON.parse(data);
 						
-						// This pulls the username you entered during registration 
-						// OR the first part of your email if you just logged in.
-						const displayName = user.username || (user.email ? user.email.split('@')[0] : "المستخدم");
+						// 3. Get the email or the username
+						const nameToShow = user.username || user.email || "مستخدم";
 
-						authSection.innerHTML = `
-							<div class="user-menu" style="display: flex; align-items: center; gap: 15px; background: rgba(255, 255, 255, 0.2); border: 1px solid white; padding: 5px 15px; border-radius: 50px; backdrop-filter: blur(5px);">
-								<span style="color: white; font-weight: bold;">مرحباً، ${displayName}</span>
-								<button id="logoutBtn" style="background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-family: inherit; font-weight: bold;">خروج</button>
-							</div>
-						`;
-
-						document.getElementById('logoutBtn').onclick = () => {
-							localStorage.removeItem('currentUser');
-							window.location.reload();
-						};
+						// 4. FORCE the HTML to change
+						if (authSection) {
+							authSection.innerHTML = `
+								<div style="display: flex; align-items: center; gap: 10px; background: rgba(255,255,255,0.2); padding: 5px 15px; border-radius: 50px;">
+									<span style="color: white; font-weight: bold;">مرحباً، ${nameToShow}</span>
+									<button onclick="logoutNow()" style="background: #ef4444; color: white; border: none; padding: 5px 10px; border-radius: 20px; cursor: pointer;">خروج</button>
+								</div>
+							`;
+						}
 					}
 				}
 
+				// Function to handle logout
+				function logoutNow() {
+					localStorage.removeItem('currentUser');
+					window.location.reload();
+				}
+
+				// Modal Logic for your "Hire/Rent" buttons
+				const modal = document.getElementById('serviceModal');
+				document.querySelectorAll('.btn-service').forEach(btn => {
+					btn.onclick = () => {
+						if(modal) modal.style.display = 'flex';
+					}
+				});
+
+				if(document.getElementById('closeModal')) {
+					document.getElementById('closeModal').onclick = () => { modal.style.display = 'none'; }
+				}
+
+				// RUN THE CHECK IMMEDIATELY
+				checkUser();
             // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
             const closeServiceModal = document.getElementById('closeModal');
