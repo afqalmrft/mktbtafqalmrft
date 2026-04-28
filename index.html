@@ -279,62 +279,33 @@
     </div>
 
     <script>
-			document.addEventListener('DOMContentLoaded', () => {
-				// 1. SELECT THE ELEMENTS
-				const authSection = document.getElementById('authSection');
-				
-				// 2. GET USER DATA FROM STORAGE
-				const rawData = localStorage.getItem('currentUser');
-				
-				if (rawData) {
-					const user = JSON.parse(rawData);
-					
-					// 3. DETERMINE THE DISPLAY NAME
-					// It checks for 'username' first, then 'email', then defaults to 'User'
-					let displayName = "المستخدم"; 
-					
-					if (user.username) {
-						displayName = user.username;
-					} else if (user.email) {
-						displayName = user.email.split('@')[0]; // Takes 'name' from 'name@email.com'
+        document.addEventListener('DOMContentLoaded', () => {
+            // 1. Auth Logic
+			function checkLoginStatus() {
+					const authSection = document.getElementById('authSection');
+					const storedData = localStorage.getItem('currentUser');
+
+					if (storedData && authSection) {
+						const user = JSON.parse(storedData);
+						
+						// This pulls the username you entered during registration 
+						// OR the first part of your email if you just logged in.
+						const displayName = user.username || (user.email ? user.email.split('@')[0] : "المستخدم");
+
+						authSection.innerHTML = `
+							<div class="user-menu" style="display: flex; align-items: center; gap: 15px; background: rgba(255, 255, 255, 0.2); border: 1px solid white; padding: 5px 15px; border-radius: 50px; backdrop-filter: blur(5px);">
+								<span style="color: white; font-weight: bold;">مرحباً، ${displayName}</span>
+								<button id="logoutBtn" style="background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-family: inherit; font-weight: bold;">خروج</button>
+							</div>
+						`;
+
+						document.getElementById('logoutBtn').onclick = () => {
+							localStorage.removeItem('currentUser');
+							window.location.reload();
+						};
 					}
-
-					// 4. UPDATE THE UI TO SHOW LOGOUT
-					authSection.innerHTML = `
-						<div class="user-menu" style="display: flex; align-items: center; gap: 15px; background: rgba(255, 255, 255, 0.1); border: 1px solid rgba(255, 255, 255, 0.4); padding: 5px 15px; border-radius: 50px; backdrop-filter: blur(5px);">
-							<span style="color: white; font-weight: bold; font-size: 0.95rem;">مرحباً، ${displayName}</span>
-							<button id="logoutBtn" class="btn-logout" style="background: #ef4444; color: white; border: none; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 0.8rem; font-family: inherit;">خروج</button>
-						</div>
-					`;
-
-					// 5. LOGOUT LOGIC
-					document.getElementById('logoutBtn').addEventListener('click', () => {
-						localStorage.removeItem('currentUser');
-						window.location.reload(); 
-					});
 				}
 
-				// --- SERVICE MODAL LOGIC (KEEP THIS) ---
-				const modal = document.getElementById('serviceModal');
-				const closeBtn = document.getElementById('closeModal');
-				
-				document.querySelectorAll('.btn-service').forEach(btn => {
-					btn.onclick = (e) => {
-						const card = e.target.closest('.service-card');
-						const title = card.querySelector('h4').innerText;
-						document.getElementById('mTitle').innerText = title;
-						modal.style.display = 'flex';
-					};
-				});
-
-				if(closeBtn) {
-					closeBtn.onclick = () => modal.style.display = 'none';
-				}
-
-				window.onclick = (e) => {
-					if (e.target == modal) modal.style.display = 'none';
-				};
-			});
             // 2. Services Modal Logic
             const serviceModal = document.getElementById('smartModal');
             const closeServiceModal = document.getElementById('closeModal');
