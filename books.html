@@ -12,111 +12,29 @@
 <br><br>
 
 
-
-    <style>
-        body {
-            font-family: "Tajawal", sans-serif;
-            background: #f7f7f7;
-            margin: 0;
-            padding: 20px;
-        }
-
-        h1 {
-            text-align: center;
-            margin-bottom: 30px;
-            color: #333;
-        }
-
-        .books-container {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
-            padding: 10px;
-        }
-
-        .book-card {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            text-align: center;
-            transition: 0.3s;
-        }
-
-        .book-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .book-card img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-radius: 8px;
-        }
-
-        .book-title {
-            font-size: 18px;
-            margin: 15px 0 10px;
-            font-weight: bold;
-        }
-
-        .book-btn {
-    display: inline-block;
-    padding: 10px 15px;
-    background: #007BFF; /* الأزرق */
-    color: white;
-    text-decoration: none;
-    border-radius: 6px;
-    transition: 0.3s;
-}
-.book-btn:hover {
-    background: #0056b3; /* أزرق أغمق عند المرور */
-}
-
-    </style>
-</head>
-
-<body>
-
-
-<div class="books-container">
-
-    <div class="book-card">
-        <img src="book1.png" alt="كتاب 1">
-        <div class="book-title">كتاب إدارة المعرفة</div>
-        <a href="#" class="book-btn">قراءة / تحميل</a>
-    </div>
-
-    <div class="book-card">
-        <img src="book2.png" alt="كتاب 2">
-        <div class="book-title">التكشيف والاستخلاص</div>
-        <a href="#" class="book-btn">قراءة / تحميل</a>
-    </div>
-
-    <div class="book-card">
-        <img src="book3.png" alt="كتاب 3">
-        <div class="book-title">ادارة محتوى المواقع الالكترزنية</div>
-        <a href="#" class="book-btn">قراءة / تحميل</a>
-    </div>
-
-    <div class="book-card">
-        <img src="book4.png" alt="كتاب 4">
-        <div class="book-title">مقدمة في علم المعلومات (رؤية حديثة)</div>
-        <a href="#" class="book-btn">قراءة / تحميل</a>
-    </div>
-
-    <div class="book-card">
-        <img src="book5.png" alt="كتاب 5">
-        <div class="book-title">التطبيقات الاحصائية في العلوم الانسانية</div>
-        <a href="#" class="book-btn">قراءة / تحميل</a>
-    </div>
-
-    <div class="book-card">
-        <img src="book6.png" alt="كتاب 6">
-        <div class="book-title">مدخل الى دراسة الوثائق والأرشيف في عصر المعرفة</div>
-        <a href="#" class="book-btn">قراءة / تحميل</a>
-    </div>
-
+ <section id="books-section" class="section" style="background-color: var(--light-bg);">
+        <h2 class="section-title">تصفح الكتب</h2>
+        <div class="books-grid">
+            <div class="book-card" data-name="إدارة المعرفة" data-price="30 SAR" data-img="book1.png">
+                <img src="book1.png" alt="Book 1"><div class="price-overlay"><div class="price-tag">30 SAR</div><span>عرض التفاصيل</span></div>
+            </div>
+            <div class="book-card" data-name="التكشيف و الاستخلاص" data-price="40 SAR" data-img="book2.png">
+                <img src="book2.png" alt="Book 2"><div class="price-overlay"><div class="price-tag">40 SAR</div><span>عرض التفاصيل</span></div>
+            </div>
+            <div class="book-card" data-name="إدارة محتوى المواقع الإلكتروني" data-price="35 SAR" data-img="book3.png">
+                <img src="book3.png" alt="Book 3"><div class="price-overlay"><div class="price-tag">35 SAR</div><span>عرض التفاصيل</span></div>
+            </div>
+            <div class="book-card" data-name="مقدمة في علم المعلومات" data-price="20 SAR" data-img="book4.png">
+                <img src="book4.png" alt="Book 4"><div class="price-overlay"><div class="price-tag">20 SAR</div><span>عرض التفاصيل</span></div>
+            </div>
+            <div class="book-card" data-name="التطبيقات الإحصائية في العلوم الإنسانية" data-price="30 SAR" data-img="book5.png">
+                <img src="book5.png" alt="Book 5"><div class="price-overlay"><div class="price-tag">30 SAR</div><span>عرض التفاصيل</span></div>
+            </div>
+            <div class="book-card" data-name="مدخل إلى دراسة الوثائق و الأرشيف في عصر المعرفة" data-price="40 SAR" data-img="book6.png">
+                <img src="book6.png" alt="Book 6"><div class="price-overlay"><div class="price-tag">40 SAR</div><span>عرض التفاصيل</span></div>
+            </div>
+        </div>
+    </section>
 </div>
 
 
