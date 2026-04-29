@@ -2,41 +2,159 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>تصفح الكتب</title>
+
+    <style>
+        body {
+            font-family: "Tajawal", sans-serif;
+            background: #f4f7fb;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #003366;
+            margin-bottom: 30px;
+            font-size: 32px;
+            border-bottom: 3px solid #cce0ff;
+            padding-bottom: 10px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .books-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+            padding: 10px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 12px;
+            padding: 15px;
+            box-shadow: 0 3px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: 0.3s;
+            cursor: pointer;
+            border: 2px solid #e6efff;
+        }
+
+        .book-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 15px rgba(0,0,0,0.12);
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 260px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+
+        .book-title {
+            font-size: 20px;
+            margin: 15px 0 10px;
+            font-weight: bold;
+            color: #003366;
+        }
+
+        .price-box {
+            margin-top: 12px;
+            padding: 10px;
+            background: #f0f8ff;
+            border: 1px solid #cce0ff;
+            border-radius: 8px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #003366;
+            display: none;
+        }
+
+        .buy-btn {
+            margin-top: 12px;
+            background: #003366;
+            color: white;
+            padding: 10px 18px;
+            border-radius: 8px;
+            font-size: 16px;
+            text-decoration: none;
+            display: inline-block;
+            transition: 0.3s;
+        }
+
+        .buy-btn:hover {
+            background: #0055aa;
+        }
+    </style>
+
+    <script>
+        function togglePrice(id) {
+            const box = document.getElementById(id);
+            box.style.display = box.style.display === "none" ? "block" : "none";
+        }
+    </script>
+
+</head>
 
 <body>
 
 <h1>تصفح الكتب</h1>
 
-<div style="width: 80px; height: 3px; background: #007BFF; margin: 10px auto 30px auto; border-radius: 5px;"></div>
+<div class="books-container">
 
-<br><br>
+    <!-- كتاب 1 -->
+    <div class="book-card" onclick="togglePrice('price1')">
+        <img src="img/book1.png" alt="التطبيقات الإحصائية في العلوم الإنسانية">
+        <div class="book-title">التطبيقات الإحصائية في العلوم الإنسانية</div>
+        <div class="price-box" id="price1">السعر: 30 ريال</div>
+        <a class="buy-btn">شراء</a>
+    </div>
 
+    <!-- كتاب 2 -->
+    <div class="book-card" onclick="togglePrice('price2')">
+        <img src="img/book2.png" alt="مقدمة في علم المعلومات">
+        <div class="book-title">مقدمة في علم المعلومات</div>
+        <div class="price-box" id="price2">السعر: 50 ريال</div>
+        <a class="buy-btn">شراء</a>
+    </div>
 
- <section id="books-section" class="section" style="background-color: var(--light-bg);">
-        <h2 class="section-title">تصفح الكتب</h2>
-        <div class="books-grid">
-            <div class="book-card" data-name="إدارة المعرفة" data-price="30 SAR" data-img="book1.png">
-                <img src="book1.png" alt="Book 1"><div class="price-overlay"><div class="price-tag">30 SAR</div><span>عرض التفاصيل</span></div>
-            </div>
-            <div class="book-card" data-name="التكشيف و الاستخلاص" data-price="40 SAR" data-img="book2.png">
-                <img src="book2.png" alt="Book 2"><div class="price-overlay"><div class="price-tag">40 SAR</div><span>عرض التفاصيل</span></div>
-            </div>
-            <div class="book-card" data-name="إدارة محتوى المواقع الإلكتروني" data-price="35 SAR" data-img="book3.png">
-                <img src="book3.png" alt="Book 3"><div class="price-overlay"><div class="price-tag">35 SAR</div><span>عرض التفاصيل</span></div>
-            </div>
-            <div class="book-card" data-name="مقدمة في علم المعلومات" data-price="20 SAR" data-img="book4.png">
-                <img src="book4.png" alt="Book 4"><div class="price-overlay"><div class="price-tag">20 SAR</div><span>عرض التفاصيل</span></div>
-            </div>
-            <div class="book-card" data-name="التطبيقات الإحصائية في العلوم الإنسانية" data-price="30 SAR" data-img="book5.png">
-                <img src="book5.png" alt="Book 5"><div class="price-overlay"><div class="price-tag">30 SAR</div><span>عرض التفاصيل</span></div>
-            </div>
-            <div class="book-card" data-name="مدخل إلى دراسة الوثائق و الأرشيف في عصر المعرفة" data-price="40 SAR" data-img="book6.png">
-                <img src="book6.png" alt="Book 6"><div class="price-overlay"><div class="price-tag">40 SAR</div><span>عرض التفاصيل</span></div>
-            </div>
-        </div>
-    </section>
+    <!-- كتاب 3 -->
+    <div class="book-card" onclick="togglePrice('price3')">
+        <img src="img/book3.png" alt="إدارة محتوى المواقع الإلكترونية">
+        <div class="book-title">إدارة محتوى المواقع الإلكترونية</div>
+        <div class="price-box" id="price3">السعر: 80 ريال</div>
+        <a class="buy-btn">شراء</a>
+    </div>
+
+    <!-- كتاب 4 -->
+    <div class="book-card" onclick="togglePrice('price4')">
+        <img src="img/book4.png" alt="التكشيف والاستخلاص">
+        <div class="book-title">التكشيف والاستخلاص</div>
+        <div class="price-box" id="price4">السعر: 45 ريال</div>
+        <a class="buy-btn">شراء</a>
+    </div>
+
+    <!-- كتاب 5 -->
+    <div class="book-card" onclick="togglePrice('price5')">
+        <img src="img/book5.png" alt="إدارة المعرفة">
+        <div class="book-title">إدارة المعرفة</div>
+        <div class="price-box" id="price5">السعر: 30 ريال</div>
+        <a class="buy-btn">شراء</a>
+    </div>
+
+    <!-- كتاب 6 -->
+    <div class="book-card" onclick="togglePrice('price6')">
+        <img src="img/book6.png" alt="مدخل إلى دراسة الوثائق والأرشيف">
+        <div class="book-title">مدخل إلى دراسة الوثائق والأرشيف</div>
+        <div class="price-box" id="price6">السعر: 40 ريال</div>
+        <a class="buy-btn">شراء</a>
+    </div>
+
 </div>
-
 
 </body>
 </html>
