@@ -89,12 +89,61 @@
         .buy-btn:hover {
             background: #0055aa;
         }
+
+        /* نافذة الإيميل */
+        #emailPopup {
+            display:none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            width: 300px;
+            text-align: center;
+            z-index: 9999;
+            border: 2px solid #cce0ff;
+        }
+
+        #emailPopup input {
+            width: 90%;
+            padding: 10px;
+            border: 1px solid #cce0ff;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        #emailPopup button {
+            cursor: pointer;
+        }
     </style>
 
     <script>
         function togglePrice(id) {
             const box = document.getElementById(id);
             box.style.display = box.style.display === "none" ? "block" : "none";
+        }
+
+        function openPopup(event) {
+            event.stopPropagation();
+            document.getElementById("emailPopup").style.display = "block";
+        }
+
+        function closePopup() {
+            document.getElementById("emailPopup").style.display = "none";
+        }
+
+        function sendEmail() {
+            const email = document.getElementById("emailInput").value;
+            if(email.trim() === "") {
+                alert("الرجاء إدخال بريد إلكتروني");
+                return;
+            }
+            alert("تم استلام بريدك الإلكتروني: " + email);
+            closePopup();
         }
     </script>
 
@@ -106,54 +155,75 @@
 
 <div class="books-container">
 
-    <!-- كتاب 1 -->
     <div class="book-card" onclick="togglePrice('price1')">
-        <img src="img/book1.png" alt="التطبيقات الإحصائية في العلوم الإنسانية">
+        <img src="book1.png" alt="التطبيقات الإحصائية في العلوم الإنسانية">
         <div class="book-title">التطبيقات الإحصائية في العلوم الإنسانية</div>
         <div class="price-box" id="price1">السعر: 30 ريال</div>
-        <a class="buy-btn">شراء</a>
+        <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
-    <!-- كتاب 2 -->
     <div class="book-card" onclick="togglePrice('price2')">
-        <img src="img/book2.png" alt="مقدمة في علم المعلومات">
+        <img src="book2.png" alt="مقدمة في علم المعلومات">
         <div class="book-title">مقدمة في علم المعلومات</div>
-        <div class="price-box" id="price2">السعر: 50 ريال</div>
-        <a class="buy-btn">شراء</a>
+        <div class="price-box" id="price2">السعر: 30 ريال</div>
+        <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
-    <!-- كتاب 3 -->
     <div class="book-card" onclick="togglePrice('price3')">
-        <img src="img/book3.png" alt="إدارة محتوى المواقع الإلكترونية">
+        <img src="book3.png" alt="إدارة محتوى المواقع الإلكترونية">
         <div class="book-title">إدارة محتوى المواقع الإلكترونية</div>
-        <div class="price-box" id="price3">السعر: 80 ريال</div>
-        <a class="buy-btn">شراء</a>
+        <div class="price-box" id="price3">السعر: 30 ريال</div>
+        <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
-    <!-- كتاب 4 -->
     <div class="book-card" onclick="togglePrice('price4')">
-        <img src="img/book4.png" alt="التكشيف والاستخلاص">
+        <img src="book4.png" alt="التكشيف والاستخلاص">
         <div class="book-title">التكشيف والاستخلاص</div>
-        <div class="price-box" id="price4">السعر: 45 ريال</div>
-        <a class="buy-btn">شراء</a>
+        <div class="price-box" id="price4">السعر: 30 ريال</div>
+        <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
-    <!-- كتاب 5 -->
     <div class="book-card" onclick="togglePrice('price5')">
-        <img src="img/book5.png" alt="إدارة المعرفة">
+        <img src="book5.png" alt="إدارة المعرفة">
         <div class="book-title">إدارة المعرفة</div>
         <div class="price-box" id="price5">السعر: 30 ريال</div>
-        <a class="buy-btn">شراء</a>
+        <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
-    <!-- كتاب 6 -->
     <div class="book-card" onclick="togglePrice('price6')">
-        <img src="img/book6.png" alt="مدخل إلى دراسة الوثائق والأرشيف">
+        <img src="book6.png" alt="مدخل إلى دراسة الوثائق والأرشيف">
         <div class="book-title">مدخل إلى دراسة الوثائق والأرشيف</div>
-        <div class="price-box" id="price6">السعر: 40 ريال</div>
-        <a class="buy-btn">شراء</a>
+        <div class="price-box" id="price6">السعر: 30 ريال</div>
+        <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
+</div>
+
+<!-- نافذة الإيميل -->
+<div id="emailPopup">
+    <h3 style="margin-bottom: 15px; color:#003366;">أدخل بريدك الإلكتروني</h3>
+
+    <input id="emailInput" type="email" placeholder="example@email.com">
+
+    <button onclick="sendEmail()" style="
+        background:#003366;
+        color:white;
+        padding:10px 20px;
+        border:none;
+        border-radius:8px;
+        font-size:16px;
+    ">إرسال</button>
+
+    <br><br>
+
+    <button onclick="closePopup()" style="
+        background:#999;
+        color:white;
+        padding:8px 15px;
+        border:none;
+        border-radius:6px;
+        font-size:14px;
+    ">إغلاق</button>
 </div>
 
 </body>
