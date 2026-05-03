@@ -607,6 +607,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
 </script>
 
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+
+    // كل أزرار الخدمات
+    const buttons = document.querySelectorAll(".btn-service");
+
+    buttons.forEach((btn, index) => {
+        btn.addEventListener("click", () => {
+            const modal = document.querySelectorAll(".modal")[index];
+            if (modal) modal.style.display = "block";
+        });
+    });
+
+    // أزرار الإغلاق
+    const closeButtons = document.querySelectorAll(".close-modal");
+
+    closeButtons.forEach(closeBtn => {
+        closeBtn.addEventListener("click", () => {
+            closeBtn.closest(".modal").style.display = "none";
+        });
+    });
+
+    // إغلاق عند الضغط خارج المودال
+    window.addEventListener("click", (e) => {
+        if (e.target.classList.contains("modal")) {
+            e.target.style.display = "none";
+        }
+    });
+
+});
+</script>
 
 </body>
 </html>
