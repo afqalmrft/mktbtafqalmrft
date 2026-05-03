@@ -444,24 +444,40 @@
 				}
 
 				// --- SERVICE MODAL LOGIC ---
-				function setupModals() {
-					const modal = document.getElementById('serviceModal');
-					const closeBtn = document.getElementById('closeModal');
-					
-					// زر بيع الكتب
-const sellBtn = document.querySelector(".openSellModal");
-if (sellBtn) {
-    sellBtn.onclick = () => {
-        document.getElementById("sellModal").style.display = "flex";
-    };
-}
+				// --- SERVICE MODAL LOGIC ---
+function setupModals() {
 
-// زر الملخصات
-const summaryBtn = document.querySelector(".openSummaryModal");
-if (summaryBtn) {
-    summaryBtn.onclick = () => {
-        document.getElementById("summaryModal").style.display = "flex";
-    };
+    // زر بيع الكتب
+    const sellBtn = document.querySelector(".openSellModal");
+    if (sellBtn) {
+        sellBtn.onclick = () => {
+            document.getElementById("sellModal").style.display = "flex";
+        };
+    }
+
+    // زر الملخصات
+    const summaryBtn = document.querySelector(".openSummaryModal");
+    if (summaryBtn) {
+        summaryBtn.onclick = () => {
+            document.getElementById("summaryModal").style.display = "flex";
+        };
+    }
+
+    // زر إغلاق مودال بيع الكتب
+    const closeSell = document.querySelector(".closeSell");
+    if (closeSell) {
+        closeSell.onclick = () => {
+            document.getElementById("sellModal").style.display = "none";
+        };
+    }
+
+    // زر إغلاق مودال الملخصات
+    const closeSummary = document.querySelector(".closeSummary");
+    if (closeSummary) {
+        closeSummary.onclick = () => {
+            document.getElementById("summaryModal").style.display = "none";
+        };
+    }
 }
 
 
