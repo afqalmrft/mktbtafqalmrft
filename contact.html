@@ -149,5 +149,20 @@
         <a href="index.html" class="back-btn">العودة للصفحة الرئيسية</a>
     </div>
 
+    <!-- كود رسالة "تم الإرسال" -->
+    <script>
+        const form = document.querySelector("form");
+        const sendBtn = document.querySelector(".send-btn");
+
+        form.addEventListener("submit", function(e) {
+            e.preventDefault();
+
+            sendBtn.textContent = "تم إرسال رسالتك ✔️";
+            sendBtn.style.background = "#16a34a";
+            sendBtn.style.cursor = "default";
+            sendBtn.disabled = true;
+        });
+    </script>
+
 </body>
 </html>
