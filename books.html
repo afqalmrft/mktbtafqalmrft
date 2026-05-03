@@ -90,35 +90,6 @@
             background: #0055aa;
         }
 
-        /* نافذة الإيميل */
-        #emailPopup {
-            display:none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
-            width: 300px;
-            text-align: center;
-            z-index: 9999;
-            border: 2px solid #cce0ff;
-        }
-
-        #emailPopup input {
-            width: 90%;
-            padding: 10px;
-            border: 1px solid #cce0ff;
-            border-radius: 8px;
-            margin-bottom: 15px;
-            font-size: 16px;
-        }
-
-        #emailPopup button {
-            cursor: pointer;
-        }
     </style>
 
     <script>
@@ -178,14 +149,14 @@
 
     <div class="book-card" onclick="togglePrice('price4')">
         <img src="book4.png" alt="مقدمة في علم المعلومات رؤية حديثة">
-        <div class="book-title">امقدمة في علم المعلومات رؤية حديثة</div>
+        <div class="book-title">مقدمة في علم المعلومات رؤية حديثة</div>
         <div class="price-box" id="price4">السعر: 30 ريال</div>
         <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
 
     <div class="book-card" onclick="togglePrice('price5')">
         <img src="book5.png" alt="التطبيقات الإحصائية في العلوم الإنسانية">
-        <div class="book-title">لتطبيقات الإحصائية في العلوم الإنسانية</div>
+        <div class="book-title">التطبيقات الإحصائية في العلوم الإنسانية</div>
         <div class="price-box" id="price5">السعر: 30 ريال</div>
         <a class="buy-btn" onclick="openPopup(event)">شراء</a>
     </div>
@@ -199,32 +170,7 @@
 
 </div>
 
-<!-- نافذة الإيميل -->
-<div id="emailPopup">
-    <h3 style="margin-bottom: 15px; color:#003366;">أدخل بريدك الإلكتروني</h3>
 
-    <input id="emailInput" type="email" placeholder="example@email.com">
-
-    <button onclick="sendEmail()" style="
-        background:#003366;
-        color:white;
-        padding:10px 20px;
-        border:none;
-        border-radius:8px;
-        font-size:16px;
-    ">إرسال</button>
-
-    <br><br>
-
-    <button onclick="closePopup()" style="
-        background:#999;
-        color:white;
-        padding:8px 15px;
-        border:none;
-        border-radius:6px;
-        font-size:14px;
-    ">إغلاق</button>
-</div>
 
 </body>
 </html>
