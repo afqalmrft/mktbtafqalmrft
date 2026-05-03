@@ -445,32 +445,74 @@
 
 			
             // 2. Services Modal Logic
-const serviceModal = document.getElementById('smartModal');
-const closeServiceModal = document.getElementById('closeModal');
-const serviceBtns = document.querySelectorAll('.btn-service');
-const modalTitle = document.getElementById('modalDynamicTitle');
-const dynamicLabel = document.getElementById('dynamicLabel');
+// --- SERVICE MODAL LOGIC ---
+function setupModals() {
 
-serviceBtns.forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        const serviceBox = e.target.closest('.service-card');
-        const serviceName = serviceBox.querySelector('.service-title').innerText;
-        modalTitle.innerText = serviceName;
+    // 1) المودال الذكي القديم (smartModal)
+    const serviceModal = document.getElementById('smartModal');
+    const closeServiceModal = document.getElementById('closeModal');
+    const serviceBtns = document.querySelectorAll('.btn-service');
+    const modalTitle = document.getElementById('modalDynamicTitle');
+    const dynamicLabel = document.getElementById('dynamicLabel');
 
-        if(serviceName.includes('تلخيص')) dynamicLabel.innerText = 'اسم المادة / رمز المقرر';
-        else if (serviceName.includes('استفسار')) dynamicLabel.innerText = 'موضوع الاستفسار';
-        else dynamicLabel.innerText = 'اسم الكتاب / المؤلف';
+    serviceBtns.forEach(btn => {
 
-        serviceModal.style.display = 'flex';
+        // تجاهل أزرار بيع الكتب والملخصات
+        if (btn.classList.contains('openSellModal') || btn.classList.contains('openSummaryModal')) return;
+
+        btn.addEventListener('click', (e) => {
+            const serviceBox = e.target.closest('.service-card');
+            const serviceName = serviceBox.querySelector('.service-title').innerText;
+            modalTitle.innerText = serviceName;
+
+            if(serviceName.includes('تلخيص')) dynamicLabel.innerText = 'اسم المادة / رمز المقرر';
+            else if (serviceName.includes('استفسار')) dynamicLabel.innerText = 'موضوع الاستفسار';
+            else dynamicLabel.innerText = 'اسم الكتاب / المؤلف';
+
+            serviceModal.style.display = 'flex';
+        });
     });
-});
 
-if (closeServiceModal) {
-    closeServiceModal.onclick = () => {
-        serviceModal.style.display = 'none';
-    };
+    if (closeServiceModal) {
+        closeServiceModal.onclick = () => {
+            serviceModal.style.display = 'none';
+        };
+    }
+
+    // 2) مودال بيع الكتب
+    const sellBtn = document.querySelector(".openSellModal");
+    const sellModal = document.getElementById("sellModal");
+    const closeSell = document.querySelector(".closeSell");
+
+    if (sellBtn && sellModal) {
+        sellBtn.onclick = () => {
+            sellModal.style.display = "flex";
+        };
+    }
+
+    if (closeSell && sellModal) {
+        closeSell.onclick = () => {
+            sellModal.style.display = "none";
+        };
+    }
+
+    // 3) مودال الملخصات
+    const summaryBtn = document.querySelector(".openSummaryModal");
+    const summaryModal = document.getElementById("summaryModal");
+    const closeSummary = document.querySelector(".closeSummary");
+
+    if (summaryBtn && summaryModal) {
+        summaryBtn.onclick = () => {
+            summaryModal.style.display = "flex";
+        };
+    }
+
+    if (closeSummary && summaryModal) {
+        closeSummary.onclick = () => {
+            summaryModal.style.display = "none";
+        };
+    }
 }
-
 
 
 					if(closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; };
