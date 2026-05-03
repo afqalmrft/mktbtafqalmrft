@@ -349,6 +349,44 @@
     </div>
 </div>
 </div>
+	<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
+    authDomain: "afqalmrft-e1913.firebaseapp.com",
+    projectId: "afqalmrft-e1913",
+    storageBucket: "afqalmrft-e1913.firebasestorage.app",
+    messagingSenderId: "871199543253",
+    appId: "1:871199543253:web:387907520495191e92f75c",
+    measurementId: "G-8EQD69ZCKY"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+
+  const form = document.getElementById("serviceForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      bookName: document.querySelector("#field-bookName input")?.value || "",
+      bookLink: document.querySelector("#field-bookLink input")?.value || "",
+      notes: document.querySelector("#field-notes textarea")?.value || "",
+      question: document.querySelector("#field-question textarea")?.value || "",
+      date: new Date().toISOString()
+    };
+
+    await addDoc(collection(db, "requests"), data);
+
+    alert("تم إرسال طلبك بنجاح");
+    form.reset();
+    document.getElementById("smartModal").style.display = "none";
+  });
+</script>
+
 
     <section id="reviews-section" class="section" style="background-color: var(--light-bg);">
         <h2 class="section-title">آراء المستخدمين</h2>
