@@ -255,30 +255,25 @@
         <h2 class="modal-title" id="modalDynamicTitle">عنوان الخدمة</h2>
 
         <form id="serviceForm">
+            <div class="form-group">
+                <label for="bookName">اسم الكتاب/ المقرر</label>
+                <input type="email" id="userEmail" placeholder="example@stu.taibahu.edu.sa">
+            </div>
 
-    <div class="form-group">
-        <label for="bookName">اسم الكتاب</label>
-        <input type="text" id="bookName" placeholder="أدخل اسم الكتاب">
+            <div class="form-group">
+                <label for="bookName">صورة الكتاب / رابط الملخص / الطلب</label>
+                <input type="text" id="bookName" placeholder="اكتب العنوان هنا">
+            </div>
+
+            <div class="form-group">
+                <label for="details">تفاصيل إضافية</label>
+                <textarea id="details" placeholder="اكتب أي تفاصيل إضافية..."></textarea>
+            </div>
+
+            <button type="submit" class="submit-btn">إرسال</button>
+        </form>
     </div>
-
-    <div class="form-group">
-        <label for="bookImage">صورة الكتاب (اختياري)</label>
-        <input type="file" id="bookImage" accept="image/*">
-    </div>
-
-    <div class="form-group">
-        <label for="bookLink">رابط الكتاب (اختياري)</label>
-        <input type="url" id="bookLink" placeholder="ضع رابط الكتاب إن وجد">
-    </div>
-
-    <div class="form-group">
-        <label for="details">ملاحظات</label>
-        <textarea id="details" placeholder="اكتب أي ملاحظات إضافية..."></textarea>
-    </div>
-
-    <button type="submit" class="submit-btn">إرسال</button>
-</form>
-
+</div>
 
     <section id="reviews-section" class="section" style="background-color: var(--light-bg);">
         <h2 class="section-title">آراء المستخدمين</h2>
