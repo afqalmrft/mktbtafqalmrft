@@ -445,6 +445,47 @@
             });
         });
     </script>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "YOUR_KEY",
+    authDomain: "YOUR_DOMAIN",
+    projectId: "YOUR_PROJECT",
+    storageBucket: "YOUR_BUCKET",
+    messagingSenderId: "YOUR_SENDER",
+    appId: "YOUR_APP_ID"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth();
+
+  const loginBtn = document.getElementById("loginBtn");
+  const userBox = document.getElementById("userBox");
+
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // المستخدم مسجل دخول
+      loginBtn.style.display = "none";
+      userBox.style.display = "flex";
+
+      userBox.innerHTML = `
+        <span>أهلاً، ${user.displayName || "مستخدم"}</span>
+        <button id="logoutBtn">تسجيل الخروج</button>
+      `;
+
+      document.getElementById("logoutBtn").onclick = () => {
+        signOut(auth);
+      };
+
+    } else {
+      // المستخدم غير مسجل
+      loginBtn.style.display = "inline-block";
+      userBox.style.display = "none";
+    }
+  });
+</script>
 
 </body>
 </html>
