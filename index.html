@@ -444,34 +444,26 @@
 
 			
             // 2. Services Modal Logic
-// --- SERVICE MODAL LOGIC ---
-function setupModals() {
+ // 2. Services Modal Logic
+            const serviceModal = document.getElementById('smartModal');
+            const closeServiceModal = document.getElementById('closeModal');
+            const serviceBtns = document.querySelectorAll('.btn-service');
+            const modalTitle = document.getElementById('modalDynamicTitle');
+            const dynamicLabel = document.getElementById('dynamicLabel');
 
-    // 1) المودال الذكي القديم (smartModal)
-    const serviceModal = document.getElementById('smartModal');
-    const closeServiceModal = document.getElementById('closeModal');
-    const serviceBtns = document.querySelectorAll('.btn-service');
-    const modalTitle = document.getElementById('modalDynamicTitle');
-    const dynamicLabel = document.getElementById('dynamicLabel');
+            serviceBtns.forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const serviceBox = e.target.closest('.service-card');
+                    const serviceName = serviceBox.querySelector('.service-title').innerText;
+                    modalTitle.innerText = serviceName;
+                    
+                    if(serviceName.includes('ملخص')) dynamicLabel.innerText = 'اسم المادة / رمز المقرر';
+                    else if (serviceName.includes('استفسار')) dynamicLabel.innerText = 'موضوع الاستفسار';
+                    else dynamicLabel.innerText = 'اسم الكتاب / المؤلف';
 
-    serviceBtns.forEach(btn => {
-
-        // تجاهل أزرار بيع الكتب والملخصات
-        if (btn.classList.contains('openSellModal') || btn.classList.contains('openSummaryModal')) return;
-
-        btn.addEventListener('click', (e) => {
-            const serviceBox = e.target.closest('.service-card');
-            const serviceName = serviceBox.querySelector('.service-title').innerText;
-            modalTitle.innerText = serviceName;
-
-            if(serviceName.includes('تلخيص')) dynamicLabel.innerText = 'اسم المادة / رمز المقرر';
-            else if (serviceName.includes('استفسار')) dynamicLabel.innerText = 'موضوع الاستفسار';
-            else dynamicLabel.innerText = 'اسم الكتاب / المؤلف';
-
-            serviceModal.style.display = 'flex';
-        });
-    });
-
+                    serviceModal.style.display = 'flex';
+                });
+            });
     if (closeServiceModal) {
         closeServiceModal.onclick = () => {
             serviceModal.style.display = 'none';
