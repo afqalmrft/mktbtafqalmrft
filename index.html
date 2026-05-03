@@ -142,23 +142,30 @@
 </head>
 <body>
 
-    <header class="hero">
-        <nav>
-            <div class="nav-left">
-    <a id="loginBtn" href="login.html" class="login-btn">تسجيل الدخول</a>
-    <div id="userBox" style="display:none; color:white; font-weight:bold;"></div>
-</div>
-            <div class="nav-links">
-                <ul>
-    <li><a href="index.html">الرئيسية</a></li>
-    <li><a href="about.html">نبذة عنا</a></li>
-    <li><a href="books.html">تصفح الكتب</a></li>
-    <li><a href="#services-section">خدماتنا</a></li>
-    <li><a href="#reviews-section">التقييمات</a></li>
-    <li><a href="#contact-section">تواصل معنا</a></li>
-</ul>
+    <header>
+    <nav class="navbar">
+        <div class="logo">
+            <img src="logo.png" alt="Logo">
+            <span>أفق المعرفة</span>
+        </div>
 
-            </div>
+        <ul class="nav-links">
+            <li><a href="index.html">الرئيسية</a></li>
+            <li><a href="about.html">نبذة عنا</a></li>
+            <li><a href="books.html">تصفح الكتب</a></li>
+            <li><a href="services.html">خدماتنا</a></li>
+            <li><a href="reviews.html">التقييمات</a></li>
+            <li><a href="contact.html">تواصل معنا</a></li>
+        </ul>
+
+        <!-- زر تسجيل الدخول -->
+        <a id="loginBtn" href="login.html" class="login-btn">تسجيل الدخول</a>
+
+        <!-- صندوق المستخدم (يظهر بعد تسجيل الدخول) -->
+        <div id="userBox" class="user-box" style="display:none;"></div>
+    </nav>
+</header>
+
             <div class="nav-right">
                 <div class="logo-text"><span>أفق المعرفة</span><small>جامعة طيبة</small></div>
                 <img src="logo.png" alt="Logo" class="logo-img">
