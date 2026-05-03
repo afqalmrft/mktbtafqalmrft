@@ -138,25 +138,73 @@
         .book-preview img { width: 70px; height: 100px; object-fit: cover; border-radius: 8px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .book-preview-info h3 { font-size: 1.2rem; color: var(--dark-blue); margin-bottom: 5px; }
         .book-preview-info p { font-size: 1.3rem; font-weight: bold; color: var(--accent-blue); }
+
+		.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #0f1c3f;
+    padding: 15px 40px;
+    color: white;
+}
+
+.nav-links {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.login-btn {
+    background: #2563eb;
+    padding: 8px 18px;
+    border-radius: 6px;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.user-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: white;
+    font-weight: bold;
+}
+
+.user-box button {
+    background: #2563eb;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 6px;
+    color: white;
+    cursor: pointer;
+}
+
     </style>
 </head>
 <body>
-
-    <header>
+<header class="hero">
     <nav class="navbar">
-        <div class="logo">
-            <img src="logo.png" alt="Logo">
-            <span>أفق المعرفة</span>
+        <div class="nav-left">
+            <a id="loginBtn" href="login.html" class="login-btn">تسجيل الدخول</a>
+            <div id="userBox" class="user-box" style="display:none;"></div>
         </div>
 
         <ul class="nav-links">
-            <li><a href="index.html">الرئيسية</a></li>
-            <li><a href="about.html">نبذة عنا</a></li>
-            <li><a href="books.html">تصفح الكتب</a></li>
-            <li><a href="services.html">خدماتنا</a></li>
-            <li><a href="reviews.html">التقييمات</a></li>
-            <li><a href="contact.html">تواصل معنا</a></li>
+            <li><a href="#">الرئيسية</a></li>
+            <li><a href="#">نبذة عنا</a></li>
+            <li><a href="#">تصفح الكتب</a></li>
+            <li><a href="#">خدماتنا</a></li>
+            <li><a href="#">التقييمات</a></li>
+            <li><a href="#">تواصل معنا</a></li>
         </ul>
+
 
         <!-- زر تسجيل الدخول -->
         <a id="loginBtn" href="login.html" class="login-btn">تسجيل الدخول</a>
