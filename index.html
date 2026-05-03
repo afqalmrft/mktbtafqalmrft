@@ -479,26 +479,7 @@ if (summaryBtn) {
 
 				// 3. Run again after 2 seconds just to be 100% sure
 				setTimeout(checkLoginSuccess, 2000);
-            // 2. Services Modal Logic
-            const serviceModal = document.getElementById('smartModal');
-            const closeServiceModal = document.getElementById('closeModal');
-            const serviceBtns = document.querySelectorAll('.btn-service');
-            const modalTitle = document.getElementById('modalDynamicTitle');
-            const dynamicLabel = document.getElementById('dynamicLabel');
-
-            serviceBtns.forEach(btn => {
-                btn.addEventListener('click', (e) => {
-                    const serviceBox = e.target.closest('.service-card');
-                    const serviceName = serviceBox.querySelector('.service-title').innerText;
-                    modalTitle.innerText = serviceName;
-                    
-                    if(serviceName.includes('ملخص')) dynamicLabel.innerText = 'اسم المادة / رمز المقرر';
-                    else if (serviceName.includes('استفسار')) dynamicLabel.innerText = 'موضوع الاستفسار';
-                    else dynamicLabel.innerText = 'اسم الكتاب / المؤلف';
-
-                    serviceModal.style.display = 'flex';
-                });
-            });
+    
 
             closeServiceModal.addEventListener('click', () => serviceModal.style.display = 'none');
 
