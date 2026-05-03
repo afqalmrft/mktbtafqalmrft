@@ -312,38 +312,42 @@
 <div id="smartModal" class="modal-overlay" style="display: none;">
     <div class="modal-content">
         <button class="close-btn">&times;</button>
-
-        <h2 class="modal-title" id="modalDynamicTitle">عنوان الخدمة</h2>
+        <h2 id="modalDynamicTitle"></h2>
 
         <form id="serviceForm">
-            <div class="form-group">
-                <label for="bookName">اسم الكتاب/ المقرر</label>
-                <input type="email" id="userEmail" placeholder="اكتب اسم الكتاب هنا">
+
+            <!-- هنا تتحط الحقول الخمسة -->
+            <div class="form-group" id="field-bookName">
+                <label>اسم الكتاب</label>
+                <input type="text" placeholder="أدخل اسم الكتاب">
             </div>
 
-            <div class="form-group">
-                <label for="bookName">صورة الكتاب /</label>
-                <input type="text" id="bookName" placeholder="اضف صورة الكتاب ">
-           <div class="image-preview" id="imagePreview">
-    <img src="" alt="Preview" id="previewImg" style="display:none;">
-</div>
-
-			</div>
-			
- <form id="serviceForm">
-            <div class="form-group">
-                <label for="bookName">رابط الملخص</label>
-                <input type="email" id="userEmail" placeholder="انسخ رابط الملخص هنا">
-            </div>
-	 
-            <div class="form-group">
-                <label for="details">تفاصيل إضافية</label>
-                <textarea id="details" placeholder="اكتب أي تفاصيل إضافية..."></textarea>
+            <div class="form-group" id="field-bookImage">
+                <label>صورة الكتاب (اختياري)</label>
+                <input type="file" accept="image/*">
             </div>
 
+            <div class="form-group" id="field-bookLink">
+                <label>رابط الكتاب (اختياري)</label>
+                <input type="url" placeholder="ضع رابط الكتاب إن وجد">
+            </div>
+
+            <div class="form-group" id="field-notes">
+                <label>ملاحظات</label>
+                <textarea placeholder="اكتب أي ملاحظات إضافية..."></textarea>
+            </div>
+
+            <div class="form-group" id="field-question">
+                <label>اكتب استفسارك</label>
+                <textarea placeholder="اكتب استفسارك هنا..."></textarea>
+            </div>
+
+            <!-- زر الإرسال دائمًا آخر شيء -->
             <button type="submit" class="submit-btn">إرسال</button>
+
         </form>
     </div>
+</div>
 </div>
 
     <section id="reviews-section" class="section" style="background-color: var(--light-bg);">
