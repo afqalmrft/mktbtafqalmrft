@@ -89,7 +89,6 @@
         .buy-btn:hover {
             background: #0055aa;
         }
-
     </style>
 
     <script>
@@ -97,42 +96,24 @@
             const box = document.getElementById(id);
             box.style.display = box.style.display === "none" ? "block" : "none";
         }
-
-        function openPopup(event) {
-            event.stopPropagation();
-            document.getElementById("emailPopup").style.display = "block";
-        }
-
-        function closePopup() {
-            document.getElementById("emailPopup").style.display = "none";
-        }
-
-        function sendEmail() {
-            const email = document.getElementById("emailInput").value;
-            if(email.trim() === "") {
-                alert("الرجاء إدخال بريد إلكتروني");
-                return;
-            }
-            alert("تم استلام بريدك الإلكتروني: " + email);
-            closePopup();
-        }
     </script>
 
 </head>
 
 <body>
+
 <h1>تصفح الكتب</h1>
 
 <div class="books-container">
 
     <div class="book-card" onclick="togglePrice('price1')">
-        <img src="book1.png" alt="إدارة المعرفة">
+        <img src="book1.png">
         <div class="book-title">ادارة المعرفة</div>
         <div class="price-box" id="price1">السعر: 49 ريال</div>
 
         <a class="buy-btn add-to-cart"
            data-title="ادارة المعرفة"
-           data-price="30"
+           data-price="49"
            data-img="book1.png"
            onclick="event.stopPropagation()">
            شراء
@@ -140,13 +121,13 @@
     </div>
 
     <div class="book-card" onclick="togglePrice('price2')">
-        <img src="book2.png" alt="أساسيات المكتبات والمعلومات">
+        <img src="book2.png">
         <div class="book-title">أساسيات المكتبات والمعلومات</div>
         <div class="price-box" id="price2">السعر: 62 ريال</div>
 
         <a class="buy-btn add-to-cart"
            data-title="أساسيات المكتبات والمعلومات"
-           data-price="30"
+           data-price="62"
            data-img="book2.png"
            onclick="event.stopPropagation()">
            شراء
@@ -154,13 +135,13 @@
     </div>
 
     <div class="book-card" onclick="togglePrice('price3')">
-        <img src="book3.png" alt="إدارة محتوى المواقع الإلكترونية">
+        <img src="book3.png">
         <div class="book-title">إدارة محتوى المواقع الإلكترونية</div>
         <div class="price-box" id="price3">السعر: 74 ريال</div>
 
         <a class="buy-btn add-to-cart"
            data-title="إدارة محتوى المواقع الإلكترونية"
-           data-price="30"
+           data-price="74"
            data-img="book3.png"
            onclick="event.stopPropagation()">
            شراء
@@ -168,13 +149,13 @@
     </div>
 
     <div class="book-card" onclick="togglePrice('price4')">
-        <img src="book4.png" alt="مقدمة في علم المعلومات رؤية حديثة">
+        <img src="book4.png">
         <div class="book-title">مقدمة في علم المعلومات رؤية حديثة</div>
         <div class="price-box" id="price4">السعر: 75 ريال</div>
 
         <a class="buy-btn add-to-cart"
            data-title="مقدمة في علم المعلومات رؤية حديثة"
-           data-price="30"
+           data-price="75"
            data-img="book4.png"
            onclick="event.stopPropagation()">
            شراء
@@ -182,13 +163,13 @@
     </div>
 
     <div class="book-card" onclick="togglePrice('price5')">
-        <img src="book5.png" alt="التطبيقات الإحصائية في العلوم الإنسانية">
+        <img src="book5.png">
         <div class="book-title">التطبيقات الإحصائية في العلوم الإنسانية</div>
         <div class="price-box" id="price5">السعر: 59 ريال</div>
 
         <a class="buy-btn add-to-cart"
            data-title="التطبيقات الإحصائية في العلوم الإنسانية"
-           data-price="30"
+           data-price="59"
            data-img="book5.png"
            onclick="event.stopPropagation()">
            شراء
@@ -196,13 +177,13 @@
     </div>
 
     <div class="book-card" onclick="togglePrice('price6')">
-        <img src="book6.png" alt="مدخل إلى دراسة الوثائق والأرشيف">
+        <img src="book6.png">
         <div class="book-title">مدخل إلى دراسة الوثائق والأرشيف</div>
         <div class="price-box" id="price6">السعر: 60 ريال</div>
 
         <a class="buy-btn add-to-cart"
            data-title="مدخل إلى دراسة الوثائق والأرشيف"
-           data-price="30"
+           data-price="60"
            data-img="book6.png"
            onclick="event.stopPropagation()">
            شراء
@@ -211,71 +192,22 @@
 
 </div>
 
-</div>
-
 <script>
-  // إضافة كتاب للسلة
-  document.querySelectorAll('.add-to-cart').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const title = btn.dataset.title;
-      const price = btn.dataset.price;
-      const img = btn.dataset.img;
+    document.querySelectorAll('.add-to-cart').forEach(btn => {
+        btn.addEventListener('click', (event) => {
+            event.stopPropagation();
 
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const title = btn.dataset.title;
+            const price = btn.dataset.price;
+            const img = btn.dataset.img;
 
-      cart.push({ title, price, img });
+            let cart = JSON.parse(localStorage.getItem('cart')) || [];
+            cart.push({ title, price, img });
+            localStorage.setItem('cart', JSON.stringify(cart));
 
-      localStorage.setItem('cart', JSON.stringify(cart));
-
-      alert("تمت إضافة الكتاب للسلة");
+            window.location.href = "cart.html";
+        });
     });
-  });
-</script>
-
-<script>
-  document.querySelectorAll('.add-to-cart').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const title = btn.dataset.title;
-      const price = btn.dataset.price;
-      const img = btn.dataset.img;
-
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-
-      cart.push({ title, price, img });
-
-      localStorage.setItem('cart', JSON.stringify(cart));
-
-      // تحويل المستخدم مباشرة لصفحة السلة
-      window.location.href = "cart.html";
-    });
-  });
-</script>
-<script>
-  function updateCartCount() {
-    let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    const count = document.getElementById('cart-count');
-    if (count) count.textContent = cart.length;
-  }
-
-  updateCartCount();
-
-  document.querySelectorAll('.add-to-cart').forEach(btn => {
-    btn.addEventListener('click', (event) => {
-      event.stopPropagation(); // يمنع تكرار الإضافة
-
-      const title = btn.dataset.title;
-      const price = btn.dataset.price;
-      const img = btn.dataset.img;
-
-      let cart = JSON.parse(localStorage.getItem('cart')) || [];
-      cart.push({ title, price, img });
-      localStorage.setItem('cart', JSON.stringify(cart));
-
-      updateCartCount();
-
-      window.location.href = "cart.html";
-    });
-  });
 </script>
 
 </body>
