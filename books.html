@@ -189,6 +189,24 @@
   });
 </script>
 
+<script>
+  document.querySelectorAll('.add-to-cart').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const title = btn.dataset.title;
+      const price = btn.dataset.price;
+      const img = btn.dataset.img;
+
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+      cart.push({ title, price, img });
+
+      localStorage.setItem('cart', JSON.stringify(cart));
+
+      // تحويل المستخدم مباشرة لصفحة السلة
+      window.location.href = "cart.html";
+    });
+  });
+</script>
 
 </body>
 </html>
