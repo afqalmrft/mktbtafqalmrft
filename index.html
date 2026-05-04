@@ -350,15 +350,16 @@
 </div>
 
 	<script type="module">
-  import { getFirestore, collection, addDoc, serverTimestamp } 
+  import { db } from "./firebase-config.js";
+  import { collection, addDoc, serverTimestamp }
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const db = getFirestore();
   const form = document.getElementById("serviceForm");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
+    // جمع البيانات حسب الحقول الموجودة في المودال
     const data = {
       bookName: document.querySelector("#field-bookName input")?.value || "",
       bookLink: document.querySelector("#field-bookLink input")?.value || "",
@@ -367,6 +368,7 @@
       createdAt: serverTimestamp()
     };
 
+    // إرسال البيانات إلى Firestore
     await addDoc(collection(db, "requests"), data);
 
     alert("تم إرسال طلبك بنجاح");
@@ -374,6 +376,7 @@
     document.getElementById("smartModal").style.display = "none";
   });
 </script>
+
 
 
 
