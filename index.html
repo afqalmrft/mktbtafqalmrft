@@ -317,58 +317,69 @@
 
         <form id="serviceForm">
 
+            <!-- هنا تتحط الحقول الخمسة -->
             <div class="form-group" id="field-bookName">
                 <label>اسم الكتاب</label>
-                <input type="text" id="bookName" placeholder="أدخل اسم الكتاب">
+                <input type="text" placeholder="أدخل اسم الكتاب">
             </div>
 
             <div class="form-group" id="field-bookImage">
                 <label>صورة الكتاب (اختياري)</label>
-                <input type="file" id="bookImage" accept="image/*">
+                <input type="file" accept="image/*">
             </div>
 
             <div class="form-group" id="field-bookLink">
                 <label>رابط الكتاب (اختياري)</label>
-                <input type="url" id="bookLink" placeholder="ضع رابط الكتاب إن وجد">
+                <input type="url" placeholder="ضع رابط الكتاب إن وجد">
             </div>
 
             <div class="form-group" id="field-notes">
                 <label>ملاحظات</label>
-                <textarea id="notes" placeholder="اكتب أي ملاحظات إضافية..."></textarea>
+                <textarea placeholder="اكتب أي ملاحظات إضافية..."></textarea>
             </div>
 
             <div class="form-group" id="field-question">
                 <label>اكتب استفسارك</label>
-                <textarea id="question" placeholder="اكتب استفسارك هنا..."></textarea>
+                <textarea placeholder="اكتب استفسارك هنا..."></textarea>
             </div>
 
+            <!-- زر الإرسال دائمًا آخر شيء -->
             <button type="submit" class="submit-btn">إرسال</button>
 
         </form>
     </div>
 </div>
 </div>
-
 	<script type="module">
-  import { db } from "./firebase-config.js";
-  import { collection, addDoc, serverTimestamp }
-  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
+    authDomain: "afqalmrft-e1913.firebaseapp.com",
+    projectId: "afqalmrft-e1913",
+    storageBucket: "afqalmrft-e1913.firebasestorage.app",
+    messagingSenderId: "871199543253",
+    appId: "1:871199543253:web:387907520495191e92f75c",
+    measurementId: "G-8EQD69ZCKY"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
   const form = document.getElementById("serviceForm");
 
   form.addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    // جمع البيانات حسب الحقول الموجودة في المودال
     const data = {
       bookName: document.querySelector("#field-bookName input")?.value || "",
       bookLink: document.querySelector("#field-bookLink input")?.value || "",
       notes: document.querySelector("#field-notes textarea")?.value || "",
       question: document.querySelector("#field-question textarea")?.value || "",
-      createdAt: serverTimestamp()
+      date: new Date().toISOString()
     };
 
-    // إرسال البيانات إلى Firestore
     await addDoc(collection(db, "requests"), data);
 
     alert("تم إرسال طلبك بنجاح");
@@ -376,8 +387,6 @@
     document.getElementById("smartModal").style.display = "none";
   });
 </script>
-
-
 
 
     <section id="reviews-section" class="section" style="background-color: var(--light-bg);">
@@ -525,7 +534,21 @@
 					};
 				}
 
-			
+				// --- SERVICE MODAL LOGIC ---
+				function setupModals() {
+					const modal = document.getElementById('serviceModal');
+					const closeBtn = document.getElementById('closeModal');
+					
+					document.querySelectorAll('.btn-service').forEach(btn => {
+						btn.onclick = () => {
+							const card = btn.closest('.service-card');
+							const title = card ? card.querySelector('h4').innerText : "خدمة";
+							if(document.getElementById('mTitle')) document.getElementById('mTitle').innerText = title;
+							if(modal) modal.style.display = 'flex';
+						};
+					});
+
+					if(closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; };
 					window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
 				}
 				// --- EXECUTION PLAN ---
@@ -540,7 +563,7 @@
 				setTimeout(checkLoginSuccess, 2000);
     
 
-    
+            closeServiceModal.addEventListener('click', () => serviceModal.style.display = 'none');
 
             // 3. Books Modal Logic
             const bookModal = document.getElementById('bookModal');
@@ -586,8 +609,8 @@
         measurementId: "G-8EQD69ZCKY"
     };
 
- const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
     const loginBtn = document.getElementById("loginBtn");
     const userBox = document.getElementById("userBox");
@@ -743,63 +766,6 @@ document.addEventListener("DOMContentLoaded", () => {
     // إغلاق المودال
     closeBtn.addEventListener("click", () => modal.style.display = "none");
     window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
-});
-</script>
-	
-<script type="module" src="firebase-config.js"></script>
-<script type="module">
-import { db } from "./firebase-config.js";
-import { collection, addDoc, serverTimestamp } 
-from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
-
-const form = document.querySelector("#smartModal form");
-let currentType = null;
-
-// نلتقط نوع الخدمة عند فتح المودال
-document.querySelectorAll(".btn-service").forEach(btn => {
-    btn.addEventListener("click", () => {
-        currentType = btn.dataset.type;
-    });
-});
-
-// عند إرسال الطلب
-form.addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const email = document.getElementById("userEmail").value;
-    const itemName = document.getElementById("itemName").value;
-    const notes = document.getElementById("additionalDetails").value;
-
-    let data = {
-        email,
-        itemName,
-        notes,
-        createdAt: serverTimestamp()
-    };
-
-    if (currentType === "sell") {
-        await addDoc(collection(db, "usedBooks"), data);
-    }
-
-    if (currentType === "summary") {
-        await addDoc(collection(db, "summaries"), data);
-    }
-
-    if (currentType === "rent") {
-        await addDoc(collection(db, "rentRequests"), data);
-    }
-
-    if (currentType === "donate") {
-        await addDoc(collection(db, "donations"), data);
-    }
-
-    if (currentType === "question") {
-        await addDoc(collection(db, "inquiries"), data);
-    }
-
-    alert("تم إرسال طلبك بنجاح");
-    form.reset();
-    document.getElementById("smartModal").style.display = "none";
 });
 </script>
 
