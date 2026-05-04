@@ -88,29 +88,39 @@ document.getElementById("sendOrder").addEventListener("click", () => {
     window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
 });
 </script>
-document.getElementById("checkout").addEventListener("click", () => {
+<script>
+document.getElementById("sendOrder").addEventListener("click", () => {
+    let cart = JSON.parse(localStorage.getItem("cart")) || [];
+
     if (cart.length === 0) {
         alert("السلة فارغة");
         return;
     }
 
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+
     let total = 0;
-    let message = "طلب جديد:%0A%0A";
+    let message = `طلب جديد:%0A%0A`;
+    message += `👤 الاسم: ${name}%0A`;
+    message += `📞 الجوال: ${phone}%0A`;
+    message += `📍 العنوان: ${address}%0A%0A`;
+    message += `🛒 المنتجات:%0A`;
 
     cart.forEach(item => {
-        message += `📘 ${item.title}%0A`;
-        message += `💰 السعر: ${item.price} ريال%0A%0A`;
+        message += `• ${item.title} — ${item.price} ريال%0A`;
         total += Number(item.price);
     });
 
-    message += `--------------------%0A`;
-    message += `الإجمالي: ${total} ريال%0A`;
+    message += `%0A💰 الإجمالي: ${total} ريال%0A`;
 
-    const phone = "966536496315"; // رقمك هنا
-    const url = `https://wa.me/${phone}?text=${message}`;
+    const phoneNumber = "966536496315"; // رقمك
+    const url = `https://wa.me/${phoneNumber}?text=${message}`;
 
     window.open(url, "_blank");
 });
+</script>
 
 </body>
 </html>
