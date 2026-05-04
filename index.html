@@ -317,39 +317,38 @@
 
         <form id="serviceForm">
 
-            <!-- هنا تتحط الحقول الخمسة -->
             <div class="form-group" id="field-bookName">
                 <label>اسم الكتاب</label>
-                <input type="text" placeholder="أدخل اسم الكتاب">
+                <input type="text" id="bookName" placeholder="أدخل اسم الكتاب">
             </div>
 
             <div class="form-group" id="field-bookImage">
                 <label>صورة الكتاب (اختياري)</label>
-                <input type="file" accept="image/*">
+                <input type="file" id="bookImage" accept="image/*">
             </div>
 
             <div class="form-group" id="field-bookLink">
                 <label>رابط الكتاب (اختياري)</label>
-                <input type="url" placeholder="ضع رابط الكتاب إن وجد">
+                <input type="url" id="bookLink" placeholder="ضع رابط الكتاب إن وجد">
             </div>
 
             <div class="form-group" id="field-notes">
                 <label>ملاحظات</label>
-                <textarea placeholder="اكتب أي ملاحظات إضافية..."></textarea>
+                <textarea id="notes" placeholder="اكتب أي ملاحظات إضافية..."></textarea>
             </div>
 
             <div class="form-group" id="field-question">
                 <label>اكتب استفسارك</label>
-                <textarea placeholder="اكتب استفسارك هنا..."></textarea>
+                <textarea id="question" placeholder="اكتب استفسارك هنا..."></textarea>
             </div>
 
-            <!-- زر الإرسال دائمًا آخر شيء -->
             <button type="submit" class="submit-btn">إرسال</button>
 
         </form>
     </div>
 </div>
 </div>
+
 	<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
