@@ -608,8 +608,7 @@
         measurementId: "G-8EQD69ZCKY"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+  const db = getFirestore();
 
     const loginBtn = document.getElementById("loginBtn");
     const userBox = document.getElementById("userBox");
