@@ -350,22 +350,10 @@
 </div>
 
 	<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-  import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } 
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
-    authDomain: "afqalmrft-e1913.firebaseapp.com",
-    projectId: "afqalmrft-e1913",
-    storageBucket: "afqalmrft-e1913.firebasestorage.app",
-    messagingSenderId: "871199543253",
-    appId: "1:871199543253:web:387907520495191e92f75c",
-    measurementId: "G-8EQD69ZCKY"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
+  const db = getFirestore();
   const form = document.getElementById("serviceForm");
 
   form.addEventListener("submit", async (e) => {
@@ -376,7 +364,7 @@
       bookLink: document.querySelector("#field-bookLink input")?.value || "",
       notes: document.querySelector("#field-notes textarea")?.value || "",
       question: document.querySelector("#field-question textarea")?.value || "",
-      date: new Date().toISOString()
+      createdAt: serverTimestamp()
     };
 
     await addDoc(collection(db, "requests"), data);
@@ -386,6 +374,7 @@
     document.getElementById("smartModal").style.display = "none";
   });
 </script>
+
 
 
     <section id="reviews-section" class="section" style="background-color: var(--light-bg);">
@@ -533,21 +522,7 @@
 					};
 				}
 
-				// --- SERVICE MODAL LOGIC ---
-				function setupModals() {
-					const modal = document.getElementById('serviceModal');
-					const closeBtn = document.getElementById('closeModal');
-					
-					document.querySelectorAll('.btn-service').forEach(btn => {
-						btn.onclick = () => {
-							const card = btn.closest('.service-card');
-							const title = card ? card.querySelector('h4').innerText : "خدمة";
-							if(document.getElementById('mTitle')) document.getElementById('mTitle').innerText = title;
-							if(modal) modal.style.display = 'flex';
-						};
-					});
-
-					if(closeBtn) closeBtn.onclick = () => { modal.style.display = 'none'; };
+			
 					window.onclick = (e) => { if (e.target == modal) modal.style.display = 'none'; };
 				}
 				// --- EXECUTION PLAN ---
@@ -562,7 +537,7 @@
 				setTimeout(checkLoginSuccess, 2000);
     
 
-            closeServiceModal.addEventListener('click', () => serviceModal.style.display = 'none');
+    
 
             // 3. Books Modal Logic
             const bookModal = document.getElementById('bookModal');
