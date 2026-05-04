@@ -768,10 +768,101 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 });
 </script>
+<script>
+// عناصر المودال
+const modal = document.getElementById("smartModal");
+const modalTitle = document.getElementById("modalDynamicTitle");
+const closeBtn = document.querySelector(".close-btn");
+
+// الحقول
+const fieldBookName = document.getElementById("field-bookName");
+const fieldBookImage = document.getElementById("field-bookImage");
+const fieldBookLink = document.getElementById("field-bookLink");
+const fieldNotes = document.getElementById("field-notes");
+const fieldQuestion = document.getElementById("field-question");
+
+// فتح المودال حسب نوع الخدمة
+function openServiceModal(type) {
+    modal.style.display = "flex";
+
+    // إخفاء كل الحقول أولاً
+    fieldBookName.style.display = "none";
+    fieldBookImage.style.display = "none";
+    fieldBookLink.style.display = "none";
+    fieldNotes.style.display = "none";
+    fieldQuestion.style.display = "none";
+
+    // تخصيص الحقول حسب الخدمة
+    if (type === "sell") {
+        modalTitle.textContent = "بيع الكتب المستعملة";
+        fieldBookName.style.display = "block";
+        fieldBookImage.style.display = "block";
+        fieldNotes.style.display = "block";
+    }
+
+    if (type === "summary") {
+        modalTitle.textContent = "إضافة ملخص";
+        fieldBookName.style.display = "block";
+        fieldBookLink.style.display = "block";
+        fieldNotes.style.display = "block";
+    }
+
+    if (type === "rent") {
+        modalTitle.textContent = "طلب استئجار كتاب";
+        fieldBookName.style.display = "block";
+        fieldNotes.style.display = "block";
+    }
+
+    if (type === "donate") {
+        modalTitle.textContent = "التبرع بالكتب";
+        fieldBookName.style.display = "block";
+        fieldBookImage.style.display = "block";
+    }
+
+    if (type === "question") {
+        modalTitle.textContent = "إرسال استفسار";
+        fieldQuestion.style.display = "block";
+    }
+}
+
+// إغلاق المودال
+function closeServiceModal() {
+    modal.style.display = "none";
+}
+
+// ربط الأزرار
+document.querySelectorAll(".btn-service").forEach(btn => {
+    btn.addEventListener("click", () => {
+        const type = btn.getAttribute("data-type");
+        openServiceModal(type);
+    });
+});
+
+// زر الإغلاق
+closeBtn.addEventListener("click", closeServiceModal);
+
+// إغلاق عند الضغط خارج المودال
+window.addEventListener("click", (e) => {
+    if (e.target === modal) closeServiceModal();
+});
+</script>
 <script type="module">
-  import { db } from "./firebase-config.js";
-  import { collection, addDoc, serverTimestamp }
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, serverTimestamp } 
   from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
+    authDomain: "afqalmrft-e1913.firebaseapp.com",
+    projectId: "afqalmrft-e1913",
+    storageBucket: "afqalmrft-e1913.firebasestorage.app",
+    messagingSenderId: "871199543253",
+    appId: "1:871199543253:web:387907520495191e92f75c",
+    measurementId: "G-8EQD69ZCKY"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
   const form = document.getElementById("serviceForm");
 
