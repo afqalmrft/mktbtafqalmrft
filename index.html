@@ -768,6 +768,31 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("click", e => { if (e.target === modal) modal.style.display = "none"; });
 });
 </script>
+<script type="module">
+  import { db } from "./firebase-config.js";
+  import { collection, addDoc, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+  const form = document.getElementById("serviceForm");
+
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = {
+      bookName: document.querySelector("#field-bookName input")?.value || "",
+      bookLink: document.querySelector("#field-bookLink input")?.value || "",
+      notes: document.querySelector("#field-notes textarea")?.value || "",
+      question: document.querySelector("#field-question textarea")?.value || "",
+      createdAt: serverTimestamp()
+    };
+
+    await addDoc(collection(db, "requests"), data);
+
+    alert("تم إرسال طلبك بنجاح");
+    form.reset();
+    document.getElementById("smartModal").style.display = "none";
+  });
+</script>
 
 </body>
 </html>
