@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<title>إتمام الطلب</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700&display=swap" rel="stylesheet">
+
+<style>
+body {
+    font-family: 'Tajawal', sans-serif;
+    background: #f5f7fa;
+    padding: 20px;
+}
+
+.checkout-box {
+    max-width: 500px;
+    margin: auto;
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+button {
+    width: 100%;
+    padding: 12px;
+    background: #1a3c6e;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="checkout-box">
+    <h2>إتمام الطلب</h2>
+
+    <p id="orderSummary"></p>
+
+    <input type="text" id="name" placeholder="الاسم الكامل">
+    <input type="text" id="phone" placeholder="رقم الجوال">
+    <textarea id="address" placeholder="العنوان"></textarea>
+
+    <button id="sendOrder">إرسال الطلب</button>
+</div>
+
+<script>
+let cart = JSON.parse(localStorage.getItem("cart")) || [];
+let summary = "";
+let total = 0;
+
+cart.forEach(item => {
+    summary += `• ${item.title} — ${item.price} ريال<br>`;
+    total += Number(item.price);
+});
+
+document.getElementById("orderSummary").innerHTML =
+    summary + "<br><strong>الإجمالي: " + total + " ريال</strong>";
+
+document.getElementById("sendOrder").addEventListener("click", () => {
+    const name = document.getElementById("name").value;
+    const phone = document.getElementById("phone").value;
+    const address = document.getElementById("address").value;
+
+    let msg = `طلب جديد:%0A%0A`;
+    msg += `الاسم: ${name}%0A`;
+    msg += `الجوال: ${phone}%0A`;
+    msg += `العنوان: ${address}%0A%0A`;
+    msg += `المنتجات:%0A`;
+
+    cart.forEach(item => {
+        msg += `- ${item.title} (${item.price} ريال)%0A`;
+    });
+
+    msg += `%0Aالإجمالي: ${total} ريال`;
+
+    const phoneNumber = "9665XXXXXXXX"; // رقمك
+    window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
+});
+</script>
+
+</body>
+</html>
