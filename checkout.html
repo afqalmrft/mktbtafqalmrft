@@ -18,6 +18,20 @@ body {
     background: white;
     padding: 25px;
     border-radius: 10px;
+    box-shadow: 0 0 10px #ddd;
+}
+
+h2 {
+    margin-bottom: 15px;
+    color: #1a3c6e;
+}
+
+#orderSummary {
+    background: #f0f4fa;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    line-height: 1.8;
 }
 
 input, textarea {
@@ -26,6 +40,7 @@ input, textarea {
     margin: 10px 0;
     border-radius: 6px;
     border: 1px solid #ccc;
+    font-size: 15px;
 }
 
 button {
@@ -36,18 +51,29 @@ button {
     border: none;
     border-radius: 6px;
     cursor: pointer;
+    font-size: 16px;
+    margin-top: 10px;
 }
-    .payment-option {
+
+button:hover {
+    background: #16345d;
+}
+
+/* خيارات الدفع */
+.payment-option {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin: 6px 0;
-    direction: rtl;
-}
-.payment-option input {
-    margin: 0;
+    margin: 8px 0;
+    font-size: 16px;
+    cursor: pointer;
 }
 
+.payment-option input {
+    width: 18px;
+    height: 18px;
+    margin: 0;
+}
 </style>
 </head>
 
@@ -61,28 +87,53 @@ button {
     <input type="text" id="name" placeholder="الاسم الكامل">
     <input type="text" id="phone" placeholder="رقم الجوال">
     <textarea id="address" placeholder="العنوان"></textarea>
-<h3>طريقة الدفع</h3>
 
-<label class="payment-option">
-  <input type="radio" name="payment" value="الدفع عند الاستلام" checked>
-  الدفع عند الاستلام
-</label>
+    <h3>طريقة الدفع</h3>
 
-<label class="payment-option">
-  <input type="radio" name="payment" value="تحويل بنكي">
-  تحويل بنكي
-</label>
+    <label class="payment-option">
+      <input type="radio" name="payment" value="الدفع عند الاستلام" checked>
+      الدفع عند الاستلام
+    </label>
 
-<label class="payment-option">
-  <input type="radio" name="payment" value="مدى / فيزا">
-  مدى / فيزا
-</label>
+    <label class="payment-option">
+      <input type="radio" name="payment" value="تحويل بنكي">
+      تحويل بنكي
+    </label>
 
+    <label class="payment-option">
+      <input type="radio" name="payment" value="مدى / فيزا">
+      مدى / فيزا
+    </label>
+
+    <label class="payment-option">
+      <input type="radio" name="payment" value="واتساب">
+      واتساب
+    </label>
 
     <button id="sendOrder">إرسال الطلب</button>
 </div>
 
-<script>
+<!-- سكربت فايربيس -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// إعدادات مشروعك
+const firebaseConfig = {
+  apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
+  authDomain: "afqalmrft-e1913.firebaseapp.com",
+  projectId: "afqalmrft-e1913",
+  storageBucket: "afqalmrft-e1913.firebasestorage.app",
+  messagingSenderId: "871199543253",
+  appId: "1:871199543253:web:387907520495191e92f75c",
+  measurementId: "G-8EQD69ZCKY"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+// عرض المنتجات + الإجمالي
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let summary = "";
 let total = 0;
@@ -95,48 +146,8 @@ cart.forEach(item => {
 document.getElementById("orderSummary").innerHTML =
     summary + "<br><strong>الإجمالي: " + total + " ريال</strong>";
 
-document.getElementById("sendOrder").addEventListener("click", () => {
-    const name = document.getElementById("name").value;
-    const phone = document.getElementById("phone").value;
-    const address = document.getElementById("address").value;
-
-    let msg = `طلب جديد:%0A%0A`;
-    msg += `الاسم: ${name}%0A`;
-    msg += `الجوال: ${phone}%0A`;
-    msg += `العنوان: ${address}%0A%0A`;
-    msg += `المنتجات:%0A`;
-
-    cart.forEach(item => {
-        msg += `- ${item.title} (${item.price} ريال)%0A`;
-    });
-
-    msg += `%0Aالإجمالي: ${total} ريال`;
-
-
- 
-});
-</script>
-    <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-
-// إعدادات مشروعك
-const firebaseConfig = {
-  apiKey: "YOUR_KEY",
-  authDomain: "YOUR_DOMAIN",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_BUCKET",
-  messagingSenderId: "YOUR_SENDER",
-  appId: "YOUR_APP_ID"
-};
-
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
+// إرسال الطلب
 document.getElementById("sendOrder").addEventListener("click", async () => {
-
-    let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (cart.length === 0) {
         alert("السلة فارغة");
@@ -146,11 +157,7 @@ document.getElementById("sendOrder").addEventListener("click", async () => {
     const name = document.getElementById("name").value;
     const phone = document.getElementById("phone").value;
     const address = document.getElementById("address").value;
-
     const payment = document.querySelector('input[name="payment"]:checked').value;
-
-    let total = 0;
-    cart.forEach(item => total += Number(item.price));
 
     try {
         await addDoc(collection(db, "orders"), {
