@@ -37,6 +37,17 @@ button {
     border-radius: 6px;
     cursor: pointer;
 }
+    .payment-option {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 6px 0;
+    direction: rtl;
+}
+.payment-option input {
+    margin: 0;
+}
+
 </style>
 </head>
 
@@ -52,25 +63,21 @@ button {
     <textarea id="address" placeholder="العنوان"></textarea>
 <h3>طريقة الدفع</h3>
 
-<label>
+<label class="payment-option">
   <input type="radio" name="payment" value="الدفع عند الاستلام" checked>
   الدفع عند الاستلام
-</label><br>
+</label>
 
-<label>
+<label class="payment-option">
   <input type="radio" name="payment" value="تحويل بنكي">
   تحويل بنكي
-</label><br>
+</label>
 
-<label>
+<label class="payment-option">
   <input type="radio" name="payment" value="مدى / فيزا">
   مدى / فيزا
-</label><br>
+</label>
 
-<label>
-  <input type="radio" name="payment" value="واتساب">
-  واتساب
-</label><br>
 
     <button id="sendOrder">إرسال الطلب</button>
 </div>
@@ -105,8 +112,8 @@ document.getElementById("sendOrder").addEventListener("click", () => {
 
     msg += `%0Aالإجمالي: ${total} ريال`;
 
-    const phoneNumber = "9665XXXXXXXX"; // رقمك
-    window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
+
+ 
 });
 </script>
     <script type="module">
