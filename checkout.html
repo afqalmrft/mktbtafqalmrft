@@ -50,6 +50,27 @@ button {
     <input type="text" id="name" placeholder="الاسم الكامل">
     <input type="text" id="phone" placeholder="رقم الجوال">
     <textarea id="address" placeholder="العنوان"></textarea>
+<h3>طريقة الدفع</h3>
+
+<label>
+  <input type="radio" name="payment" value="الدفع عند الاستلام" checked>
+  الدفع عند الاستلام
+</label><br>
+
+<label>
+  <input type="radio" name="payment" value="تحويل بنكي">
+  تحويل بنكي
+</label><br>
+
+<label>
+  <input type="radio" name="payment" value="مدى / فيزا">
+  مدى / فيزا
+</label><br>
+
+<label>
+  <input type="radio" name="payment" value="واتساب">
+  واتساب
+</label><br>
 
     <button id="sendOrder">إرسال الطلب</button>
 </div>
@@ -87,8 +108,27 @@ document.getElementById("sendOrder").addEventListener("click", () => {
     const phoneNumber = "9665XXXXXXXX"; // رقمك
     window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
 });
-</script><script>
-document.getElementById("sendOrder").addEventListener("click", () => {
+</script>
+    <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+import { getFirestore, collection, addDoc, serverTimestamp } 
+from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+
+// إعدادات مشروعك
+const firebaseConfig = {
+  apiKey: "YOUR_KEY",
+  authDomain: "YOUR_DOMAIN",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_BUCKET",
+  messagingSenderId: "YOUR_SENDER",
+  appId: "YOUR_APP_ID"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+document.getElementById("sendOrder").addEventListener("click", async () => {
+
     let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
     if (cart.length === 0) {
@@ -100,24 +140,30 @@ document.getElementById("sendOrder").addEventListener("click", () => {
     const phone = document.getElementById("phone").value;
     const address = document.getElementById("address").value;
 
+    const payment = document.querySelector('input[name="payment"]:checked').value;
+
     let total = 0;
-    let message = `طلب جديد:%0A%0A`;
-    message += `👤 الاسم: ${name}%0A`;
-    message += `📞 الجوال: ${phone}%0A`;
-    message += `📍 العنوان: ${address}%0A%0A`;
-    message += `🛒 المنتجات:%0A`;
+    cart.forEach(item => total += Number(item.price));
 
-    cart.forEach(item => {
-        message += `• ${item.title} — ${item.price} ريال%0A`;
-        total += Number(item.price);
-    });
+    try {
+        await addDoc(collection(db, "orders"), {
+            name,
+            phone,
+            address,
+            payment,
+            items: cart,
+            total,
+            date: serverTimestamp()
+        });
 
-    message += `%0A💰 الإجمالي: ${total} ريال`;
+        alert("تم إرسال طلبك بنجاح");
+        localStorage.removeItem("cart");
+        window.location.href = "index.html";
 
-    const phoneNumber = "966536496315"; // رقمك الصحيح
-    const url = `https://wa.me/${phoneNumber}?text=${message}`;
-
-    window.open(url, "_blank");
+    } catch (error) {
+        alert("حدث خطأ، حاول مرة أخرى");
+        console.log(error);
+    }
 });
 </script>
 
