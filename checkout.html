@@ -59,7 +59,6 @@ button:hover {
     background: #16345d;
 }
 
-/* خيارات الدفع */
 .payment-option {
     display: flex;
     align-items: center;
@@ -113,12 +112,11 @@ button:hover {
     <button id="sendOrder">إرسال الطلب</button>
 </div>
 
-<!-- سكربت فايربيس -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getFirestore, collection, addDoc, serverTimestamp } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
+<!-- Firebase SDK بدون module -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
+<script>
 // إعدادات مشروعك
 const firebaseConfig = {
   apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
@@ -127,13 +125,12 @@ const firebaseConfig = {
   storageBucket: "afqalmrft-e1913.firebasestorage.app",
   messagingSenderId: "871199543253",
   appId: "1:871199543253:web:387907520495191e92f75c",
-  measurementId: "G-8EQD69ZCKY"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
 
-// عرض المنتجات + الإجمالي
+// عرض المنتجات
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 let summary = "";
 let total = 0;
@@ -147,7 +144,7 @@ document.getElementById("orderSummary").innerHTML =
     summary + "<br><strong>الإجمالي: " + total + " ريال</strong>";
 
 // إرسال الطلب
-document.getElementById("sendOrder").addEventListener("click", async () => {
+document.getElementById("sendOrder").onclick = async () => {
 
     if (cart.length === 0) {
         alert("السلة فارغة");
@@ -160,14 +157,14 @@ document.getElementById("sendOrder").addEventListener("click", async () => {
     const payment = document.querySelector('input[name="payment"]:checked').value;
 
     try {
-        await addDoc(collection(db, "orders"), {
+        await db.collection("orders").add({
             name,
             phone,
             address,
             payment,
             items: cart,
             total,
-            date: serverTimestamp()
+            date: new Date()
         });
 
         alert("تم إرسال طلبك بنجاح");
@@ -178,7 +175,7 @@ document.getElementById("sendOrder").addEventListener("click", async () => {
         alert("حدث خطأ، حاول مرة أخرى");
         console.log(error);
     }
-});
+};
 </script>
 
 </body>
