@@ -112,6 +112,7 @@ button:hover {
     <button id="goHome" style="background:#777; margin-top:15px;">العودة إلى الرئيسية</button>
 
     <button id="sendOrder">إرسال الطلب</button>
+
 </div>
 
 <!-- Firebase SDK بدون module -->
@@ -147,6 +148,9 @@ document.getElementById("orderSummary").innerHTML =
 
 // إرسال الطلب
 document.getElementById("sendOrder").onclick = async () => {
+document.getElementById("goHome").onclick = () => {
+    window.location.href = "index.html";
+};
 
     if (cart.length === 0) {
         alert("السلة فارغة");
