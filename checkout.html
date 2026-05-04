@@ -88,6 +88,29 @@ document.getElementById("sendOrder").addEventListener("click", () => {
     window.open(`https://wa.me/${phoneNumber}?text=${msg}`, "_blank");
 });
 </script>
+document.getElementById("checkout").addEventListener("click", () => {
+    if (cart.length === 0) {
+        alert("السلة فارغة");
+        return;
+    }
+
+    let total = 0;
+    let message = "طلب جديد:%0A%0A";
+
+    cart.forEach(item => {
+        message += `📘 ${item.title}%0A`;
+        message += `💰 السعر: ${item.price} ريال%0A%0A`;
+        total += Number(item.price);
+    });
+
+    message += `--------------------%0A`;
+    message += `الإجمالي: ${total} ريال%0A`;
+
+    const phone = "966536496315"; // رقمك هنا
+    const url = `https://wa.me/${phone}?text=${message}`;
+
+    window.open(url, "_blank");
+});
 
 </body>
 </html>
