@@ -349,7 +349,7 @@
         </form>
     </div>
 </div>
-</div>
+
 	<script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
   import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
@@ -438,40 +438,8 @@
 
 
 
-    </footer>
-    <div id="smartModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-btn" id="closeModal">&times;</button>
-            <h2 class="modal-title" id="modalDynamicTitle">عنوان الخدمة</h2>
-            <form action="#">
-                <div class="form-group"><label for="userEmail">البريد الإلكتروني الجامعي</label><input type="email" id="userEmail" placeholder="example@taibahu.edu.sa" required></div>
-                <div class="form-group"><label for="itemName" id="dynamicLabel">اسم الكتاب / المادة</label><input type="text" id="itemName" placeholder="أدخل الاسم هنا" required></div>
-                <div class="form-group"><label for="additionalDetails">تفاصيل إضافية (ملاحظات)</label><textarea id="additionalDetails" rows="3" placeholder="اكتب أي تفاصيل أخرى هنا..."></textarea></div>
-                <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 10px;">إرسال الطلب</button>
-            </form>
-        </div>
-    </div>
-
-    <div id="bookModal" class="modal-overlay">
-        <div class="modal-content">
-            <button class="close-btn" id="closeBookModal">&times;</button>
-            <h2 class="modal-title">شراء كتاب</h2>
-            <div class="book-preview">
-                <img id="modalBookImg" src="" alt="Book Cover">
-                <div class="book-preview-info">
-                    <h3 id="modalBookTitle">اسم الكتاب</h3>
-                    <p id="modalBookPrice">00 SAR</p>
-                </div>
-            </div>
-            <form action="#">
-                <div class="form-group">
-                    <label for="buyerEmail">أدخل بريدك الإلكتروني لإتمام الشراء</label>
-                    <input type="email" id="buyerEmail" placeholder="example@taibahu.edu.sa" required>
-                </div>
-                <button type="submit" class="btn btn-solid" style="width: 100%; margin-top: 10px; background: linear-gradient(to right, #10b981, #059669);">تأكيد الشراء</button>
-            </form>
-        </div>
-    </div>
+    </footer>  
+</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
