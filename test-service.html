@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>اختبار الإرسال</title>
+    <style>
+        body { font-family: sans-serif; background:#f7f7f7; padding:30px; }
+        .box { background:#fff; padding:20px; border-radius:10px; width:90%; max-width:450px; margin:auto; }
+        .form-group { margin-bottom:15px; }
+        label { display:block; margin-bottom:5px; font-weight:bold; }
+        input, textarea { width:100%; padding:10px; border:1px solid #ccc; border-radius:6px; }
+        .submit-btn { width:100%; padding:12px; background:#4a6cf7; color:#fff; border:none; border-radius:6px; font-size:16px; cursor:pointer; }
+        .submit-btn:hover { background:#3a57d4; }
+    </style>
+</head>
+
+<body>
+
+<div class="box">
+    <h2>اختبار إرسال الطلب</h2>
+
+    <form id="serviceForm">
+
+        <div class="form-group" id="field-bookName">
+            <label>اسم الكتاب</label>
+            <input type="text" placeholder="أدخل اسم الكتاب">
+        </div>
+
+        <div class="form-group" id="field-bookLink">
+            <label>رابط الكتاب (اختياري)</label>
+            <input type="url" placeholder="ضع رابط الكتاب إن وجد">
+        </div>
+
+        <div class="form-group" id="field-notes">
+            <label>ملاحظات</label>
+            <textarea placeholder="اكتب أي ملاحظات إضافية..."></textarea>
+        </div>
+
+        <div class="form-group" id="field-question">
+            <label>استفسارك</label>
+            <textarea placeholder="اكتب استفسارك هنا..."></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">إرسال</button>
+    </form>
+</div>
+
+
+<!-- سكربت Firebase + الإرسال -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AZIsaCyqE6ubWF1HyqCLb7v2p2CnBBVGawBMIA",
+  authDomain: "afqalnrft-e1913.firebaseapp.com",
+  projectId: "afqalnrft-e1913",
+  storageBucket: "afqalnrft-e1913.firebasestorage.app",
+  messagingSenderId: "871199543253",
+  appId: "1:871199543253:web:38790572495191e92f75c",
+  measurementId: "G-8EQD69ZCKY"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+const form = document.getElementById("serviceForm");
+
+form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const data = {
+    bookName: document.querySelector("#field-bookName input")?.value || "",
+    bookLink: document.querySelector("#field-bookLink input")?.value || "",
+    notes: document.querySelector("#field-notes textarea")?.value || "",
+    question: document.querySelector("#field-question textarea")?.value || "",
+    date: new Date().toISOString()
+  };
+
+  try {
+    await addDoc(collection(db, "requests"), data);
+    alert("تم إرسال الطلب بنجاح");
+    form.reset();
+  } catch (error) {
+    console.error(error);
+    alert("صار خطأ أثناء الإرسال");
+  }
+});
+</script>
+
+</body>
+</html>
