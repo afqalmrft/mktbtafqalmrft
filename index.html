@@ -908,14 +908,15 @@ document.getElementById("ratingForm").addEventListener("submit", async (e) => {
         return;
     }
 
-    await addDoc(collection(db, "ratings"), {
+    await addDoc(collection(db, "reviews")
+, {
         name,
         opinion,
         rating: ratingValue,
         createdAt: serverTimestamp()
     });
 
-    alert("تم إرسال تقييمك بنجاح");
+    alert("تم إرسال تقييمك بنجاح .. شكراً لك ");
     e.target.reset();
     stars.forEach(s => s.classList.remove("active"));
     ratingValue = 0;
