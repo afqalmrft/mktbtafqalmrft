@@ -604,11 +604,8 @@
 
             userBox.innerHTML = `
                 <span>أهلاً، ${user.displayName || "مستخدم"}</span>
-			userBox.innerHTML = `
-    <span>أهلاً ${user.displayName || "مستخدم"}</span>
-    <button id="logoutBtn">تسجيل الخروج</button>
-`;
-
+                <button id="logoutBtn">تسجيل الخروج</button>
+            `;
 
             document.getElementById("logoutBtn").onclick = () => {
                 signOut(auth);
