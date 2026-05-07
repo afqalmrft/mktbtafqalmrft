@@ -104,31 +104,29 @@ button:hover {
       مدى / فيزا
     </label>
 
-<a href="index.html" class="btn" style="
-    display:block;
-    text-align:center;
-    background:#777;
-    color:white;
-    padding:12px;
-    border-radius:6px;
-    margin-top:15px;
-    text-decoration:none;
-">
-العودة إلى الرئيسية
-</a>
-
-
+    <a href="index.html" class="btn" style="
+        display:block;
+        text-align:center;
+        background:#777;
+        color:white;
+        padding:12px;
+        border-radius:6px;
+        margin-top:15px;
+        text-decoration:none;
+    ">
+    العودة إلى الرئيسية
+    </a>
 
     <button id="sendOrder">إرسال الطلب</button>
 
 </div>
 
-<!-- Firebase SDK بدون module -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-// إعدادات مشروعك
+// إعدادات Firebase
 const firebaseConfig = {
   apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
   authDomain: "afqalmrft-e1913.firebaseapp.com",
@@ -156,9 +154,6 @@ document.getElementById("orderSummary").innerHTML =
 
 // إرسال الطلب
 document.getElementById("sendOrder").onclick = async () => {
-document.getElementById("goHome").onclick = () => {
-    window.location.href = "index.html";
-};
 
     if (cart.length === 0) {
         alert("السلة فارغة");
@@ -171,26 +166,9 @@ document.getElementById("goHome").onclick = () => {
     const payment = document.querySelector('input[name="payment"]:checked').value;
 
     try {
-        await db.collection("orders").add({
+        const docRef = await db.collection("orders").add({
             name,
             phone,
             address,
             payment,
             items: cart,
-            total,
-            date: new Date()
-        });
-
-        alert("تم إرسال طلبك بنجاح");
-        localStorage.removeItem("cart");
-        window.location.href = "index.html";
-
-    } catch (error) {
-        alert("حدث خطأ، حاول مرة أخرى");
-        console.log(error);
-    }
-};
-</script>
-
-</body>
-</html>
