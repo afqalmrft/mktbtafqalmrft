@@ -8,21 +8,34 @@
 <style>
 body {
     font-family: 'Tajawal', sans-serif;
-    background: #f5f7fa;
-    padding: 20px;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    /* خلفية زرقاء متدرجة */
+    background: linear-gradient(135deg, #0f172a, #1e3a8a, #2563eb);
+}
+
+/* الشعار */
+.logo {
+    display: block;
+    width: 120px;
+    margin: 0 auto 20px auto;
 }
 
 .review-box {
-    max-width: 500px;
-    margin: auto;
+    width: 500px;
     background: white;
     padding: 25px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px #ddd;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.25);
+    text-align: center;
 }
 
 h2 {
-    text-align: center;
     color: #1a3c6e;
     margin-bottom: 20px;
 }
@@ -73,21 +86,26 @@ button:hover {
 
 <body>
 
-<div class="review-box">
-    <h2>أضف تقييمك</h2>
+<div>
+    <!-- شعار المكتبة -->
+    <img src="logo.png" class="logo" alt="Logo">
 
-    <input type="text" id="reviewName" placeholder="اسمك">
-    <textarea id="reviewText" placeholder="اكتب رأيك هنا..."></textarea>
+    <div class="review-box">
+        <h2>أضف تقييمك</h2>
 
-    <div class="stars">
-        <span class="star" data-value="1">★</span>
-        <span class="star" data-value="2">★</span>
-        <span class="star" data-value="3">★</span>
-        <span class="star" data-value="4">★</span>
-        <span class="star" data-value="5">★</span>
+        <input type="text" id="reviewName" placeholder="اسمك">
+        <textarea id="reviewText" placeholder="اكتب رأيك هنا..."></textarea>
+
+        <div class="stars">
+            <span class="star" data-value="1">★</span>
+            <span class="star" data-value="2">★</span>
+            <span class="star" data-value="3">★</span>
+            <span class="star" data-value="4">★</span>
+            <span class="star" data-value="5">★</span>
+        </div>
+
+        <button id="sendReview">إرسال التقييم</button>
     </div>
-
-    <button id="sendReview">إرسال التقييم</button>
 </div>
 
 <!-- Firebase -->
