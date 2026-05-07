@@ -126,17 +126,17 @@
     <div class="contact-container">
         <h1>تواصل معنا</h1>
 
-        <form>
+        <form id="contactForm">
             <label>الاسم</label>
-            <input type="text" placeholder="اكتب اسمك هنا">
+            <input type="text" id="name" placeholder="اكتب اسمك هنا">
 
             <label>البريد الإلكتروني</label>
-            <input type="email" placeholder="example@email.com">
+            <input type="email" id="email" placeholder="example@email.com">
 
             <label>رسالتك</label>
-            <textarea placeholder="اكتب رسالتك هنا"></textarea>
+            <textarea id="message" placeholder="اكتب رسالتك هنا"></textarea>
 
-            <button class="send-btn">إرسال</button>
+            <button class="send-btn" id="sendBtn">إرسال</button>
         </form>
 
         <div class="info-box">
@@ -149,18 +149,58 @@
         <a href="index.html" class="back-btn">العودة للصفحة الرئيسية</a>
     </div>
 
-    <!-- كود رسالة "تم الإرسال" -->
-    <script>
-        const form = document.querySelector("form");
-        const sendBtn = document.querySelector(".send-btn");
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
-        form.addEventListener("submit", function(e) {
+    <script>
+        // إعدادات Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyCyE6UbwF1HYqcLb7vV2p2CnBBVgaWBMlA",
+            authDomain: "afqalmrft-e1913.firebaseapp.com",
+            projectId: "afqalmrft-e1913",
+            storageBucket: "afqalmrft-e1913.firebasestorage.app",
+            messagingSenderId: "871199543253",
+            appId: "1:871199543253:web:387907520495191e92f75c",
+        };
+
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+
+        // إرسال الرسالة
+        document.getElementById("contactForm").addEventListener("submit", async function(e) {
             e.preventDefault();
 
-            sendBtn.textContent = "تم إرسال رسالتك ✔️";
-            sendBtn.style.background = "#16a34a";
-            sendBtn.style.cursor = "default";
-            sendBtn.disabled = true;
+            const name = document.getElementById("name").value;
+            const email = document.getElementById("email").value;
+            const message = document.getElementById("message").value;
+            const sendBtn = document.getElementById("sendBtn");
+
+            if (!name || !email || !message) {
+                alert("الرجاء تعبئة جميع الحقول");
+                return;
+            }
+
+            try {
+                await db.collection("messages").add({
+                    name,
+                    email,
+                    message,
+                    date: new Date()
+                });
+
+                sendBtn.textContent = "تم إرسال رسالتك ✔️";
+                sendBtn.style.background = "#16a34a";
+                sendBtn.disabled = true;
+
+                document.getElementById("name").value = "";
+                document.getElementById("email").value = "";
+                document.getElementById("message").value = "";
+
+            } catch (error) {
+                alert("حدث خطأ، حاول مرة أخرى");
+                console.log(error);
+            }
         });
     </script>
 
