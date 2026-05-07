@@ -172,3 +172,25 @@ document.getElementById("sendOrder").onclick = async () => {
             address,
             payment,
             items: cart,
+            total,
+            date: new Date()
+        });
+
+        // حفظ رقم الطلب
+        localStorage.setItem("orderId", docRef.id);
+
+        // تفريغ السلة
+        localStorage.removeItem("cart");
+
+        // الانتقال لصفحة الشكر
+        window.location.href = "thankyou.html";
+
+    } catch (error) {
+        alert("حدث خطأ، حاول مرة أخرى");
+        console.log(error);
+    }
+};
+</script>
+
+</body>
+</html>
