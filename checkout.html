@@ -177,7 +177,21 @@ document.getElementById("sendOrder").onclick = async () => {
         });
 
         // حفظ رقم الطلب
-        localStorage.setItem("orderId", docRef.id);
+      const orderNumber = generateOrderNumber();
+
+await db.collection("orders").add({
+    orderNumber,
+    name,
+    phone,
+    address,
+    payment,
+    items: cart,
+    total,
+    date: new Date()
+});
+
+// حفظ رقم الطلب المختصر
+localStorage.setItem("orderId", orderNumber);
 
         // تفريغ السلة
         localStorage.removeItem("cart");
